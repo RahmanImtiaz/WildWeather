@@ -7,6 +7,7 @@ const WeatherDisplay = ({ data, onSave }) => {
     month: 'long',
     day: 'numeric'
   });
+  const suggestion = data.suggestion;
 
   return (
     <div className="weather-card">
@@ -22,7 +23,7 @@ const WeatherDisplay = ({ data, onSave }) => {
           <p className="temperature">{Math.round(currentData.main.temp)}°C</p>
           <p>{currentData.weather[0].description}</p>
           <p>Feels like: {Math.round(currentData.main.feels_like)}°C</p>
-          <p>SUGGESTION MESSAGE!!!!</p>
+          <p>{suggestion}</p>
         </div>
         
         <div className="weather-metrics">

@@ -34,7 +34,9 @@ function Weather() {
         weather: item.weather,
         // Other data can be added here <---- ASK group memebers
       }));
-  
+
+      const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
+
       setWeatherData({
         current: currentResponse.data,
         forecast: {
@@ -43,13 +45,33 @@ function Weather() {
             // Approximate UV index since it's not in the standard API apparently
             uvi: 0
           }
-        }
+        },
+        suggestion: suggestionMsg
       });
     } catch (error) {
       console.error('Error fetching weather data:', error);
     }
   };
-  
+
+  // Logic to get a weather suggestion based on weather conditions
+  const getWeatherSuggestion = (description) => {
+    if (description.includes("rain")) {
+      return "Grab an umbrella!";
+    }else if (description.includes("snow")) {
+      return "It's snowing! stay warm and enjoy the atmosphere!";
+    }else if (description.includes("storm")) {
+      return "Thunderstorms are rolling in! Stay inside if possible, and avoid tall trees and open fields.";
+    }else if (description === "clear sky") {
+      return "It's nice day for a jog!";
+    } else if (description === "few clouds") {
+      return "Perfect weather for a walk or a trip in the park!"
+    } else if (description.includes("cloud")) {
+      return "It's a great time for indoor activities, or a adventurous walk outside!";
+    } else if (description === "mist") {
+      return "Perfect for a quiet walk, but be mindful of lower visibility!";
+    }
+  }
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -73,7 +95,7 @@ function Weather() {
       {weatherData && (
         <>
           <WeatherDisplay 
-            data={weatherData} 
+            data={weatherData}
           />
           <HourlyForecast hourlyData={weatherData.forecast.hourly} />
           <DailyForecast forecastData={weatherData.forecast.hourly} />
