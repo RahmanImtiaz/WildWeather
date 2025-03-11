@@ -3,7 +3,7 @@ import axios from 'axios';
 import WeatherDisplay from './WeatherDisplay';
 import './App.css';
 import HourlyForecast from './HourlyForecast';
-
+import DailyForecast from './DailyForcasts';
 
 
 function Weather() {
@@ -76,6 +76,7 @@ function Weather() {
             data={weatherData} 
           />
           <HourlyForecast hourlyData={weatherData.forecast.hourly} />
+          <DailyForecast forecastData={weatherData.forecast.hourly} />
         </>
 )}
 
