@@ -4,7 +4,7 @@ import WeatherDisplay from './WeatherDisplay';
 import './App.css';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForcasts';
-
+import MapSearch from './MapSearch';
 
 function Weather() {
   const [weatherData, setWeatherData] = useState(null);
@@ -72,6 +72,11 @@ function Weather() {
     }
   }
 
+   // Logic to update weather data based on location search from the map
+   const handleLocationChange = (lat, lon, locationName) => {
+    fetchWeatherData(lat, lon);
+  };
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -92,6 +97,7 @@ function Weather() {
 
   return (
     <div className="weather-container">
+      <MapSearch onLocationChange={handleLocationChange} /> {/* New map and search functionality */}
       {weatherData && (
         <>
           <WeatherDisplay 
@@ -100,8 +106,7 @@ function Weather() {
           <HourlyForecast hourlyData={weatherData.forecast.hourly} />
           <DailyForecast forecastData={weatherData.forecast.hourly} />
         </>
-)}
-
+      )}
     </div>
   );
 }
