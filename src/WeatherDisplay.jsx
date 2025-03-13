@@ -11,7 +11,7 @@ const WeatherDisplay = ({ data, onSave }) => {
 
   return (
     <div className="weather-card">
-      <h2>{data.current.name}</h2> 
+      <h2>{data.current.name.split(",").slice(0, 2).join(", ")}</h2>
       <h3>{currentDate}</h3>
       
       <div className="weather-details">
