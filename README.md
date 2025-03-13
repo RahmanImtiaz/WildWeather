@@ -1,6 +1,10 @@
 # WildWeather
 Weather App for Outdoor Enthusiasts
 
+## Setup
+1. Copy `.env.example` to `.env`
+2. Add your OpenWeatherMap API key to `.env`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
