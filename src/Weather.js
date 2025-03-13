@@ -8,11 +8,18 @@ import MapSearch from './MapSearch';
 
 function Weather() {
   const [weatherData, setWeatherData] = useState(null);
+  const [position, setPosition] = useState([51.5074, -0.1278]); // Default London
+  const [locationName, setLocationName] = useState('London');
+  // for error handling of API calls
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   const fetchWeatherData = async (lat, lon, locationName) => {
+    setIsLoading(true);
+    setError(null);
     try {
       // Current weather data
       console.log(`Fetching weather data for coordinates: ${lat}, ${lon}`);
@@ -37,6 +44,11 @@ function Weather() {
 
       const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
 
+      // Save the current location name if provided
+      if (locationName) {
+        setLocationName(locationName);
+      }
+
       setWeatherData({
         current: {
           ...currentResponse.data,
@@ -53,6 +65,9 @@ function Weather() {
       });
     } catch (error) {
       console.error('Error fetching weather data:', error);
+      setError('Failed to fetch weather data. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -73,10 +88,13 @@ function Weather() {
     } else if (description === "mist") {
       return "Perfect for a quiet walk, but be mindful of lower visibility!";
     }
+    return "Enjoy your day!"; // Default suggestion
   }
 
    // Logic to update weather data based on location search from the map
    const handleLocationChange = (lat, lon, locationName) => {
+    setPosition([lat, lon]); // Update position state on map
+    setLocationName(locationName || 'Unknown location');
     fetchWeatherData(lat, lon, locationName);
   };
 
@@ -84,6 +102,10 @@ function Weather() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          // Update position state with geolocation
+          const { latitude, longitude } = position.coords;
+          setPosition([latitude, longitude]);
+
           fetchWeatherData(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
@@ -100,7 +122,11 @@ function Weather() {
 
   return (
     <div className="weather-container">
-      <MapSearch onLocationChange={handleLocationChange} /> {/* New map and search functionality */}
+      <MapSearch 
+      onLocationChange={handleLocationChange} 
+      initialPosition={position}
+      initialLocationName={locationName}
+      /> {/* New map and search functionality */}
       {weatherData && (
         <>
           <WeatherDisplay 

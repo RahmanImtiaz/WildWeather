@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
@@ -15,16 +15,24 @@ L.Icon.Default.mergeOptions({
 // This function watches for position changes and updates the map view <- fixes the repositioning of map
 function ChangeMapView({ position }) {
   const map = useMap();
-  
   map.setView(position, 13);
-  
   return null;
 }
 
-const MapSearch = ({ onLocationChange }) => {
+const MapSearch = ({ onLocationChange, initialPosition, initialLocationName }) => {
   const [searchInput, setSearchInput] = useState('');
   const [position, setPosition] = useState([51.5074, -0.1278]); // Default position (London)
   const [locationName, setLocationName] = useState('London');
+
+  // Update local state when props change <- fixes the repositioning of map based on intiail geolocation
+  useEffect(() => {
+    if (initialPosition && initialPosition[0] && initialPosition[1]) {
+      setPosition(initialPosition);
+    }
+    if (initialLocationName) {
+      setLocationName(initialLocationName);
+    }
+  }, [initialPosition, initialLocationName]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
