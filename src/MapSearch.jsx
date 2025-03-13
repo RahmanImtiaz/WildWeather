@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -11,6 +11,15 @@ L.Icon.Default.mergeOptions({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
+
+// This function watches for position changes and updates the map view <- fixes the repositioning of map
+function ChangeMapView({ position }) {
+  const map = useMap();
+  
+  map.setView(position, 13);
+  
+  return null;
+}
 
 const MapSearch = ({ onLocationChange }) => {
   const [searchInput, setSearchInput] = useState('');
@@ -66,6 +75,7 @@ const MapSearch = ({ onLocationChange }) => {
               </div>
             </Popup>
           </Marker>
+          <ChangeMapView position={position} />
         </MapContainer>
       </div>
     </div>
