@@ -12,7 +12,7 @@ function Weather() {
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
-  const fetchWeatherData = async (lat, lon) => {
+  const fetchWeatherData = async (lat, lon, locationName) => {
     try {
       // Current weather data
       console.log(`Fetching weather data for coordinates: ${lat}, ${lon}`);
@@ -38,7 +38,10 @@ function Weather() {
       const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
 
       setWeatherData({
-        current: currentResponse.data,
+        current: {
+          ...currentResponse.data,
+          name: locationName || currentResponse.data.name,  // Fix incorrect names
+        },
         forecast: {
           hourly: hourlyData,
           current: {
@@ -74,7 +77,7 @@ function Weather() {
 
    // Logic to update weather data based on location search from the map
    const handleLocationChange = (lat, lon, locationName) => {
-    fetchWeatherData(lat, lon);
+    fetchWeatherData(lat, lon, locationName);
   };
 
   useEffect(() => {

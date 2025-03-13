@@ -411,4 +411,17 @@ body {
   max-width: 600px;
 }
 
+/* This overrides Leaflet zoom control button styles to avoid white zoom buttons */
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: #903ec7 !important;
+  color: black !important;
+  border: none !important;
+}
+
+/* Changes hover effect */
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background-color: #bf92f3 !important;
+}
 

@@ -45,7 +45,7 @@ const MapSearch = ({ onLocationChange }) => {
       <form onSubmit={handleSearch} className="map-search-form">
         <input
           type="text"
-          placeholder="Search city or postcode..."
+          placeholder="Search city..."
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="map-search-input"
@@ -54,7 +54,7 @@ const MapSearch = ({ onLocationChange }) => {
         <button type="submit" className="map-search-button">Search</button>
       </form>
       <div className="map-container">
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: '300px', width: '100%' }}>
+        <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{ height: '300px', width: '100%' }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
