@@ -11,7 +11,7 @@ const WeatherDisplay = ({ data, onSave }) => {
 
   return (
     <div className="weather-card">
-      <h2>{currentData.name}</h2>
+      <h2>{data.current.name}</h2> 
       <h3>{currentDate}</h3>
       
       <div className="weather-details">
@@ -42,3 +42,4 @@ const WeatherDisplay = ({ data, onSave }) => {
 };
 
 export default WeatherDisplay; // Ensure default export
+// currentData.name

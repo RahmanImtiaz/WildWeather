@@ -369,4 +369,59 @@ body {
     transform: translateY(0);
   }
 }
+/* Map and Search styles */
+.map-search-container{
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #B3AAE3 0%, #2F2664 30%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.map-search-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.map-search-input {
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+  outline: none;
+  width: 60%;
+  max-width: 300px;
+}
+.map-search-input::placeholder {
+  color: #666;
+}
+.map-search-button {
+  padding: 10px 20px;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  background-color: #61dafb;
+  color: #2F2664;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.map-container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* This overrides Leaflet zoom control button styles to avoid white zoom buttons */
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: #903ec7 !important;
+  color: black !important;
+  border: none !important;
+}
+
+/* Changes hover effect */
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background-color: #bf92f3 !important;
+}
 
