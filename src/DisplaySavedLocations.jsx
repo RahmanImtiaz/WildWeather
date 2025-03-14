@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocation }) => {
+const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocation, units }) => {
     const API_KEY = process.env.REACT_APP_API_KEY;
     const [temperatures, setTemperatures] = useState({});
+
+    // Effect to refresh temperatures when units change
+    useEffect(() => {
+        // When units change, we need to refetch all temperatures
+        if (savedLocations.length > 0) {
+            console.log("Units changed, refetching temperatures with units:", units);
+            savedLocations.forEach(location => {
+                fetchTemperature(location);
+            });
+        }
+    }, [units]);
 
     const fetchTemperature = async (city) => {
         try {
             const response = await axios.get(
-                `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${API_KEY}`
             );
             setTemperatures(prev => ({ 
                 ...prev, 
@@ -39,6 +50,9 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
         });
     }, [savedLocations]);
 
+    // Get the appropriate temperature unit symbol
+    const tempUnit = units === 'metric' ? '°C' : '°F';
+
     return (
         <div className="saved-locations">
             <h2>Saved Locations</h2>
@@ -66,7 +80,7 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
                                     </button>
                                 </div>
                                 <p className="location-temp">
-                                    Temperature: {temperatures[location]?.temp || 'Loading...'}°C
+                                    Temperature: {temperatures[location]?.temp || 'Loading...'}{tempUnit}
                                 </p>
                             </div>
                         </li>

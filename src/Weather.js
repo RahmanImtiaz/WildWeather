@@ -15,50 +15,55 @@ function Weather() {
   // for error handling of API calls
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  // Get units from localStorage
+  const [units, setUnits] = useState(() => {
+    return localStorage.getItem('units') || 'metric';
+  });
 
   const API_KEY = process.env.REACT_APP_API_KEY;
   const [savedLocations, setSavedLocations] = useState([]);
-    // Load saved locations from localStorage when component mounts
-    useEffect(() => {
-      const storedLocations = localStorage.getItem('locations');
-      if (storedLocations) {
-        try {
-          const parsedLocations = JSON.parse(storedLocations);
-          if (Array.isArray(parsedLocations)) {
-            setSavedLocations(parsedLocations);
-          }
-        } catch (e) {
-          console.error('Error parsing saved locations:', e);
-          localStorage.setItem('locations', JSON.stringify([]));
+  
+  // Load saved locations from localStorage when component mounts
+  useEffect(() => {
+    const storedLocations = localStorage.getItem('locations');
+    if (storedLocations) {
+      try {
+        const parsedLocations = JSON.parse(storedLocations);
+        if (Array.isArray(parsedLocations)) {
+          setSavedLocations(parsedLocations);
         }
+      } catch (e) {
+        console.error('Error parsing saved locations:', e);
+        localStorage.setItem('locations', JSON.stringify([]));
       }
-    }, []);
-  
-    // Function to save a location
-    const saveLocation = (locationName) => {
-      if (locationName && !savedLocations.includes(locationName)) {
-        const newSavedLocations = [...savedLocations, locationName];
-        setSavedLocations(newSavedLocations);
-        localStorage.setItem('locations', JSON.stringify(newSavedLocations));
-      }
-    };
-  
-    // Function to remove a location
-    const removeLocation = (locationName) => {
-      const newSavedLocations = savedLocations.filter(loc => loc !== locationName);
+    }
+  }, []);
+
+  // Function to save a location
+  const saveLocation = (locationName) => {
+    if (locationName && !savedLocations.includes(locationName)) {
+      const newSavedLocations = [...savedLocations, locationName];
       setSavedLocations(newSavedLocations);
       localStorage.setItem('locations', JSON.stringify(newSavedLocations));
-    };
-  
-    // Function to view a saved location
-    const viewSavedLocation = (locationName, lat, lon) => {
-      if (lat && lon) {
-        setPosition([lat, lon]); // Update map position
-        setLocationName(locationName);
-        fetchWeatherData(lat, lon, locationName);
-      } 
+    }
+  };
+
+  // Function to remove a location
+  const removeLocation = (locationName) => {
+    const newSavedLocations = savedLocations.filter(loc => loc !== locationName);
+    setSavedLocations(newSavedLocations);
+    localStorage.setItem('locations', JSON.stringify(newSavedLocations));
+  };
+
+  // Function to view a saved location
+  const viewSavedLocation = (locationName, lat, lon) => {
+    if (lat && lon) {
+      setPosition([lat, lon]); // Update map position
+      setLocationName(locationName);
+      fetchWeatherData(lat, lon, locationName);
+    } 
         //idk what to do here
-    };
+  };
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   const fetchWeatherData = async (lat, lon, locationName) => {
     setIsLoading(true);
@@ -67,13 +72,13 @@ function Weather() {
       // Current weather data
       console.log(`Fetching weather data for coordinates: ${lat}, ${lon}`);
       const currentResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=${units}`
       );
       console.log("Current weather response:", currentResponse.data);
       
       // Use the 5-day forecast endpoint to get hourly data
       const forecastResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`
       );
       console.log("Forecast response:", forecastResponse.data);
   
@@ -92,10 +97,10 @@ function Weather() {
 
       const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
 
-       // Get country code from API response
+      // Get country code from API response
       const countryCode = currentResponse.data.sys.country;
 
-       // Ensure the correct format for the location name
+      // Ensure the correct format for the location name
       const formattedLocationName = `${locationName || currentResponse.data.name}, ${countryCode}`;
 
       // Save the current location name if provided
@@ -115,7 +120,8 @@ function Weather() {
             uvi: 0
           }
         },
-        suggestion: suggestionMsg
+        suggestion: suggestionMsg,
+        units: units // Add units to the weather data
       });
     } catch (error) {
       console.error('Error fetching weather data:', error);
@@ -145,11 +151,21 @@ function Weather() {
     return "Enjoy your day!"; // Default suggestion
   }
 
-   // Logic to update weather data based on location search from the map
-   const handleLocationChange = (lat, lon, locationName) => {
+  // Logic to update weather data based on location search from the map
+  const handleLocationChange = (lat, lon, locationName) => {
     setPosition([lat, lon]); // Update position state on map
     setLocationName(locationName || 'Unknown location');
     fetchWeatherData(lat, lon, locationName);
+  };
+
+  // Handle units change from settings
+  const handleUnitsChange = (newUnits) => {
+    setUnits(newUnits);
+    
+    // Refetch weather data with new units if we have position data
+    if (position && position.length === 2) {
+      fetchWeatherData(position[0], position[1], locationName);
+    }
   };
 
   useEffect(() => {
@@ -211,32 +227,42 @@ function Weather() {
   
   return (
     <div className="weather-container">
-      <Settings onSavedLocationsChange={() => {
-        const storedLocations = localStorage.getItem('locations');
-        const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
-        setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
-      }} />
+      <Settings 
+        onSavedLocationsChange={() => {
+          const storedLocations = localStorage.getItem('locations');
+          const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
+          setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
+        }}
+        onUnitsChange={handleUnitsChange}
+      />
       <MapSearch 
-      onLocationChange={handleLocationChange} 
-      initialPosition={position}
-      initialLocationName={locationName}
-      /> {/* New map and search functionality */}
+        onLocationChange={handleLocationChange} 
+        initialPosition={position}
+        initialLocationName={locationName}
+      />
       {weatherData && (
         <>
           <WeatherDisplay 
             data={weatherData}
             savedLocations={savedLocations}
             onSaveLocation={saveLocation}
+            units={units}
           />
-          <HourlyForecast hourlyData={weatherData.forecast.hourly} />
-          <DailyForecast forecastData={weatherData.forecast.hourly} />
+          <HourlyForecast 
+            hourlyData={weatherData.forecast.hourly} 
+            units={units}
+          />
+          <DailyForecast 
+            forecastData={weatherData.forecast.hourly} 
+            units={units}
+          />
         </>
-        
       )}
       <DisplaySavedLocations 
         savedLocations={savedLocations}
         onRemoveLocation={removeLocation}
         onViewLocation={viewSavedLocation}
+        units={units}  // Pass units to DisplaySavedLocations
       />
     </div>
   );

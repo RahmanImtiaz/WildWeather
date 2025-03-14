@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-const Settings = ({onSavedLocationsChange}) => {
+const Settings = ({ onSavedLocationsChange, onUnitsChange }) => {
     const [units, setUnits] = useState(() => {
         const savedUnits = localStorage.getItem('units');
         return savedUnits || 'metric';
@@ -9,14 +9,9 @@ const Settings = ({onSavedLocationsChange}) => {
     const [tempUnits, setTempUnits] = useState(units);
     const [eraseChoice, setEraseChoice] = useState('no');
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-    // const [savedLocations, setSavedLocations] = useState([]);
 
     useEffect(() => {
         const locations = JSON.parse(localStorage.getItem('locations')) || [];
-        // const savedUnits = localStorage.getItem('units') || 'metric';
-        // setSavedLocations(locations);
-        // setUnits(savedUnits);
-        // setTempUnits(savedUnits);
     }, []);
 
     const handleSettingsSubmit = (e) => {
@@ -27,10 +22,16 @@ const Settings = ({onSavedLocationsChange}) => {
         if (eraseChoice === 'yes') {
             localStorage.setItem('locations', JSON.stringify([]));
             if (onSavedLocationsChange) onSavedLocationsChange();
-          }
+        }
         
-        localStorage.setItem('units', newUnits);
-        setUnits(newUnits);
+        // Only update if units have changed
+        if (units !== newUnits) {
+            localStorage.setItem('units', newUnits);
+            setUnits(newUnits);
+            // Notify parent component about the units change
+            if (onUnitsChange) onUnitsChange(newUnits);
+        }
+        
         setEraseChoice('no');
     };
 

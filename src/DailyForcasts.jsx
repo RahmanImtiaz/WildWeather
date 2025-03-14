@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
-const DailyForecast = ({ forecastData }) => {
+const DailyForecast = ({ forecastData, units }) => {
   const [selectedDay, setSelectedDay] = useState(null);
+  
+  // Get the appropriate temperature unit symbol
+  const tempUnit = units === 'metric' ? '°C' : '°F';
   
   // Group forecast data by day
   const dailyData = {};
@@ -48,15 +51,14 @@ const DailyForecast = ({ forecastData }) => {
             <span className="day">{day.day}</span>
             <span className="date">{day.date}</span>
             <img 
-            // finds the icon for the middle of the day - ie. avg icon or most common time - midday
+              // finds the icon for the middle of the day - ie. avg icon or most common time - midday
               src={`https://openweathermap.org/img/wn/${day.icons[Math.floor(day.icons.length / 2)]}.png`} 
               alt={day.descriptions[Math.floor(day.descriptions.length / 2)]}
             />
-            <span className="temp">{Math.round(day.temps.reduce((a, b) => a + b, 0) / day.temps.length)}°C</span>
+            <span className="temp">{Math.round(day.temps.reduce((a, b) => a + b, 0) / day.temps.length)}{tempUnit}</span>
           </div>
         ))}
       </div>
-      
       
       {selectedDay !== null && (
         <div className="daily-details">
@@ -69,7 +71,7 @@ const DailyForecast = ({ forecastData }) => {
                   src={`https://openweathermap.org/img/wn/${item.weather[0].icon}.png`} 
                   alt={item.weather[0].description}
                 />
-                <span>{Math.round(item.temp)}°C</span>
+                <span>{Math.round(item.temp)}{tempUnit}</span>
                 <span className="description">{item.weather[0].description}</span>
               </div>
             ))}
