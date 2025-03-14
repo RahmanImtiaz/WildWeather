@@ -562,10 +562,14 @@ h1 {
   padding: 0.75rem 1.25rem;
   border-radius: 0 9999px 9999px 0;
   border: none;
-  background-color: #61dafb;
-  color: var(--secondary);
+  background-color: rgba(98, 85, 185, 1);
+  color: var(--text);
   cursor: pointer;
   font-weight: bold;
+}
+
+.map-search-button:hover {
+  background-color: var(--muted);
 }
 
 .map-container {
