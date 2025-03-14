@@ -45,6 +45,7 @@ h1 {
     "mapsearch"
     "weathercard"
     "dailyforecast"
+    "savedlocations"
     "hourlyforecast";
   gap: 1.5rem;
   max-width: 1200px;
@@ -62,7 +63,7 @@ h1 {
     grid-template-areas: 
       "mapsearch mapsearch"
       "weathercard dailyforecast"
-      "hourlyforecast dailyforecast";
+      "hourlyforecast savedlocations";
   }
 }
 
@@ -113,7 +114,6 @@ h1 {
   }
 }
 
-/* Weather card */
 .weather-card {
   grid-area: weathercard;
   background: var(--secondary);
@@ -243,7 +243,6 @@ h1 {
 }
 
 .weather-metrics p::before {
-  content: '•';
   margin-right: 8px;
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.2rem;
@@ -272,7 +271,6 @@ h1 {
   transform: translateY(0);
 }
 
-/* Hourly Forecast */
 .hourly-forecast {
   grid-area: hourlyforecast;
   overflow-x: auto;
@@ -387,7 +385,6 @@ h1 {
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* Daily Forecast */
 .daily-forecast {
   grid-area: dailyforecast;
   background: var(--secondary);
@@ -397,7 +394,7 @@ h1 {
   margin: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: fit-content;
   overflow: hidden;
 }
 
@@ -605,7 +602,6 @@ h1 {
   background: rgba(98, 85, 185, 0.9);
 }
 
-/* This overrides Leaflet zoom control button styles to avoid white zoom buttons */
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
   background-color: var(--secondary) !important;
@@ -613,7 +609,6 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-/* Changes hover effect */
 .leaflet-control-zoom-in:hover,
 .leaflet-control-zoom-out:hover {
   background-color: var(--muted) !important;
@@ -638,19 +633,17 @@ h1 {
 .autocomplete-item {
   padding: 10px;
   cursor: pointer;
-  color: #000; /* Ensures black font */
+  color: #000;
 }
 
 .autocomplete-item:hover {
   background: #f0f0f0;
 }
 
-/* Ensure last item in dropdown doesn't have a bottom border */
 .autocomplete-item:last-child {
   border-bottom: none;
 }
 
-/* My Paths section */
 .my-paths {
   display: grid;
   grid-template-columns: 1fr;
@@ -776,11 +769,25 @@ button {
   width: 10em;
 }
 
-/* Additional styles for hourly graph and other chart components */
 .hourly-graph {
   height: 55%;
   margin-top: 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-md);
   padding: 15px;
+}
+
+.saved-locations {
+  grid-area: savedlocations;
+  background: var(--secondary);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  height: fit-content;
+}
+
+.saved-locations ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
