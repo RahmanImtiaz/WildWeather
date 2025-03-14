@@ -41,16 +41,22 @@ function Weather() {
 
   // Function to save a location
   const saveLocation = (locationName) => {
-    if (locationName && !savedLocations.includes(locationName)) {
-      const newSavedLocations = [...savedLocations, locationName];
+    // Get current coordinates
+    const lat = position[0];
+    const lon = position[1];
+    
+    // Check if location with this name already exists
+    if (locationName && !savedLocations.some(loc => loc.name === locationName)) {
+      const newLocation = { name: locationName, lat, lon };
+      const newSavedLocations = [...savedLocations, newLocation];
       setSavedLocations(newSavedLocations);
       localStorage.setItem('locations', JSON.stringify(newSavedLocations));
     }
   };
 
   // Function to remove a location
-  const removeLocation = (locationName) => {
-    const newSavedLocations = savedLocations.filter(loc => loc !== locationName);
+  const removeLocation = (locationToRemove) => {
+    const newSavedLocations = savedLocations.filter(loc => loc.name !== locationToRemove.name);
     setSavedLocations(newSavedLocations);
     localStorage.setItem('locations', JSON.stringify(newSavedLocations));
   };
@@ -61,9 +67,10 @@ function Weather() {
       setPosition([lat, lon]); // Update map position
       setLocationName(locationName);
       fetchWeatherData(lat, lon, locationName);
-    } 
+    }
         //idk what to do here
   };
+  
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   const fetchWeatherData = async (lat, lon, locationName) => {
     setIsLoading(true);

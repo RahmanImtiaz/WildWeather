@@ -16,14 +16,21 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
         }
     }, [units]);
 
-    const fetchTemperature = async (city) => {
+    const fetchTemperature = async (location) => {
         try {
-            const response = await axios.get(
-                `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${API_KEY}`
-            );
+            // Use coordinates if available
+            let url;
+            if (location.lat && location.lon) {
+                url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=${units}&appid=${API_KEY}`;
+            } else {
+                // Fallback to query by name if no coordinates
+                url = `https://api.openweathermap.org/data/2.5/weather?q=${location.name}&units=${units}&appid=${API_KEY}`;
+            }
+            
+            const response = await axios.get(url);
             setTemperatures(prev => ({ 
                 ...prev, 
-                [city]: {
+                [location.name]: {
                     temp: Math.round(response.data.main.temp),
                     lat: response.data.coord.lat,
                     lon: response.data.coord.lon
@@ -33,7 +40,7 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
             console.error('Error fetching temperature:', error);
             setTemperatures(prev => ({ 
                 ...prev, 
-                [city]: { 
+                [location.name]: { 
                     temp: 'N/A', 
                     lat: null, 
                     lon: null 
@@ -44,7 +51,7 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
 
     useEffect(() => {
         savedLocations.forEach(location => {
-            if (!temperatures[location]) {
+            if (!temperatures[location.name]) {
                 fetchTemperature(location);
             }
         });
@@ -63,24 +70,24 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
                     {savedLocations.map((location, index) => (
                         <li key={index}>
                             <div className="location-info">
-                                <span className="location-name">{location}</span>
+                                <span className="location-name">{location.name}</span>
                                 <div className="location-actions">
                                     <button 
                                         onClick={() => onViewLocation(
-                                            location, 
-                                            temperatures[location]?.lat, 
-                                            temperatures[location]?.lon
+                                            location.name, 
+                                            location.lat || temperatures[location.name]?.lat, 
+                                            location.lon || temperatures[location.name]?.lon
                                         )}
-                                        disabled={!temperatures[location]?.lat}
+                                        disabled={!location.lat && !temperatures[location.name]?.lat}
                                     >
-                                        View
+                                        👁️
                                     </button>
                                     <button onClick={() => onRemoveLocation(location)}>
-                                        Remove
+                                        ❌
                                     </button>
                                 </div>
                                 <p className="location-temp">
-                                    Temperature: {temperatures[location]?.temp || 'Loading...'}{tempUnit}
+                                    Temperature: {temperatures[location.name]?.temp || 'Loading...'}{tempUnit}
                                 </p>
                             </div>
                         </li>
