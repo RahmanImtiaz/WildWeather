@@ -39,6 +39,11 @@ function Weather() {
         dt: item.dt,
         temp: item.main.temp,
         weather: item.weather,
+        wind_speed: item.wind.speed,
+        visibility: item.visibility,
+        humidity: item.main.humidity,
+        pressure: item.main.pressure,
+        clouds: item.clouds.all,
         // Other data can be added here <---- ASK group memebers
       }));
 

@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import Weather from './Weather';
+import { Chart as ChartJS } from 'chart.js/auto';
+import { Line } from "react-chartjs-2";
 
 function App() {
   return (
