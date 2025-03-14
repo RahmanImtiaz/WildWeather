@@ -12,11 +12,22 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
             );
             setTemperatures(prev => ({ 
                 ...prev, 
-                [city]: Math.round(response.data.main.temp) // Rounded here
+                [city]: {
+                    temp: Math.round(response.data.main.temp),
+                    lat: response.data.coord.lat,
+                    lon: response.data.coord.lon
+                }
             }));
         } catch (error) {
             console.error('Error fetching temperature:', error);
-            setTemperatures(prev => ({ ...prev, [city]: 'N/A' }));
+            setTemperatures(prev => ({ 
+                ...prev, 
+                [city]: { 
+                    temp: 'N/A', 
+                    lat: null, 
+                    lon: null 
+                }
+            }));
         }
     };
 
@@ -37,14 +48,27 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
                 <ul>
                     {savedLocations.map((location, index) => (
                         <li key={index}>
-                            {location}
-                            <button onClick={() => onViewLocation(location)}>
-                                View
-                            </button>
-                            <button onClick={() => onRemoveLocation(location)}>
-                                Remove
-                            </button>
-                            <p>Temperature: {temperatures[location] || 'Loading...'}°C</p>
+                            <div className="location-info">
+                                <span className="location-name">{location}</span>
+                                <div className="location-actions">
+                                    <button 
+                                        onClick={() => onViewLocation(
+                                            location, 
+                                            temperatures[location]?.lat, 
+                                            temperatures[location]?.lon
+                                        )}
+                                        disabled={!temperatures[location]?.lat}
+                                    >
+                                        View
+                                    </button>
+                                    <button onClick={() => onRemoveLocation(location)}>
+                                        Remove
+                                    </button>
+                                </div>
+                                <p className="location-temp">
+                                    Temperature: {temperatures[location]?.temp || 'Loading...'}°C
+                                </p>
+                            </div>
                         </li>
                     ))}
                 </ul>

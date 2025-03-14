@@ -51,9 +51,13 @@ function Weather() {
     };
   
     // Function to view a saved location
-    const viewSavedLocation = (locationName) => {
-      setLocationName(locationName);
-      fetchWeatherData(position[0], position[1], locationName);
+    const viewSavedLocation = (locationName, lat, lon) => {
+      if (lat && lon) {
+        setPosition([lat, lon]); // Update map position
+        setLocationName(locationName);
+        fetchWeatherData(lat, lon, locationName);
+      } 
+        //idk what to do here
     };
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   const fetchWeatherData = async (lat, lon, locationName) => {
