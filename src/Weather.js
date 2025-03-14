@@ -49,6 +49,12 @@ function Weather() {
 
       const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
 
+       // Get country code from API response
+      const countryCode = currentResponse.data.sys.country;
+
+       // Ensure the correct format for the location name
+      const formattedLocationName = `${locationName || currentResponse.data.name}, ${countryCode}`;
+
       // Save the current location name if provided
       if (locationName) {
         setLocationName(locationName);
@@ -57,7 +63,7 @@ function Weather() {
       setWeatherData({
         current: {
           ...currentResponse.data,
-          name: locationName || currentResponse.data.name,  // Fix incorrect names
+          name: formattedLocationName, // Use formatted name with country code
         },
         forecast: {
           hourly: hourlyData,
@@ -104,27 +110,62 @@ function Weather() {
   };
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Update position state with geolocation
-          const { latitude, longitude } = position.coords;
-          setPosition([latitude, longitude]);
-
-          fetchWeatherData(position.coords.latitude, position.coords.longitude);
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          // Fallback to default location
-          fetchWeatherData(51.5074, -0.1278);
-        }
-      );
-    } else {
-        // Fallback to default location, if geolocation is not supported
-        fetchWeatherData(51.5074, -0.1278);
-    }
+    const fetchUserLocation = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            console.log("User's Current Location:", latitude, longitude); // Debugging
+  
+            try {
+              // Fetch detailed location using OpenStreetMap's Nominatim API
+              const response = await axios.get(
+                `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+              );
+  
+              let detailedLocation = "Unknown Location";
+              if (response.data && response.data.display_name) {
+                const locationParts = response.data.display_name.split(",");
+                detailedLocation = locationParts.slice(0, 2).join(", ").trim(); // Get first 2 parts
+              }
+  
+              console.log("Fetched Location:", detailedLocation); // Debugging
+  
+              // Update state with the user's actual location
+              setPosition([latitude, longitude]);
+              setLocationName(detailedLocation);
+              fetchWeatherData(latitude, longitude, detailedLocation);
+            } catch (error) {
+              console.error("Error fetching location:", error);
+              setLocationName("Unknown Location");
+            }
+          },
+          async (error) => {
+            console.error("Geolocation error:", error);
+            console.log("Falling back to IP-based location...");
+  
+            // Use IP-based geolocation if GPS fails
+            try {
+              const ipResponse = await axios.get("https://ipapi.co/json/");
+              const ipLocation = `${ipResponse.data.city}, ${ipResponse.data.country}`;
+              setPosition([ipResponse.data.latitude, ipResponse.data.longitude]);
+              setLocationName(ipLocation);
+              fetchWeatherData(ipResponse.data.latitude, ipResponse.data.longitude, ipLocation);
+            } catch (err) {
+              console.error("IP Geolocation Error:", err);
+              fetchWeatherData(51.5074, -0.1278, "London"); // Final fallback to default
+            }
+          }
+        );
+      } else {
+        console.log("Geolocation not supported, falling back to default...");
+        fetchWeatherData(51.5074, -0.1278, "London");
+      }
+    };
+  
+    fetchUserLocation();
   }, []);
-
+  
   return (
     <div className="weather-container">
       <MapSearch 

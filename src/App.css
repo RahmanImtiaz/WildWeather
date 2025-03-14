@@ -399,16 +399,41 @@ body {
   padding: 10px 20px;
   border-radius: 0 5px 5px 0;
   border: none;
-  background-color: #61dafb;
-  color: #2F2664;
+  background-color: #9a4efd;
+  color: #ffffff;
   cursor: pointer;
   font-weight: bold;
 }
 
 .map-container {
+  position: relative;
   margin: 0 auto;
   width: 100%;
   max-width: 600px;
+}
+.map-location-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(160, 67, 236, 0.7);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease-in-out;
+}
+
+.map-location-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.map-location-icon:hover {
+  background: rgba(0, 0, 0, 0.9);
 }
 
 /* This overrides Leaflet zoom control button styles to avoid white zoom buttons */
@@ -425,3 +450,33 @@ body {
   background-color: #bf92f3 !important;
 }
 
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  width: 35%;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 1000;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+.autocomplete-item {
+  padding: 10px;
+  cursor: pointer;
+  color: #000; /* Ensures black font */
+}
+
+.autocomplete-item:hover {
+  background: #f0f0f0;
+}
+
+/* Ensure last item in dropdown doesn't have a bottom border */
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
