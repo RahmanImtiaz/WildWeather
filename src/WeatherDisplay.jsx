@@ -1,4 +1,4 @@
-const WeatherDisplay = ({ data, onSave }) => {
+const WeatherDisplay = ({ data,savedLocations, onSaveLocation }) => {
   const currentData = data.current;
   const forecastData = data.forecast;
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -8,7 +8,12 @@ const WeatherDisplay = ({ data, onSave }) => {
     day: 'numeric'
   });
   const suggestion = data.suggestion;
-
+  // Function to save the current location
+  const saveLocation = () => {
+    if (currentData && currentData.name) {
+      onSaveLocation(currentData.name);
+    }
+  };
   return (
     <div className="weather-card">
       <h2>{data.current.name.split(",").slice(0, 2).join(", ")}</h2>
@@ -36,7 +41,12 @@ const WeatherDisplay = ({ data, onSave }) => {
         </div>
       </div>
       
-      <button onClick={onSave} className="save-button">Save Location</button>
+      <button 
+        onClick={saveLocation} 
+        disabled={savedLocations.includes(currentData.name)}
+      >
+        {savedLocations.includes(currentData.name) ? 'Saved' : 'Save Location'}
+      </button>
     </div>
   );
 };

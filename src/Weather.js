@@ -5,6 +5,8 @@ import './App.css';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForcasts';
 import MapSearch from './MapSearch';
+import Settings from './Settings';
+import DisplaySavedLocations from './DisplaySavedLocations';
 
 function Weather() {
   const [weatherData, setWeatherData] = useState(null);
@@ -15,7 +17,44 @@ function Weather() {
   const [error, setError] = useState(null);
 
   const API_KEY = process.env.REACT_APP_API_KEY;
-
+  const [savedLocations, setSavedLocations] = useState([]);
+    // Load saved locations from localStorage when component mounts
+    useEffect(() => {
+      const storedLocations = localStorage.getItem('locations');
+      if (storedLocations) {
+        try {
+          const parsedLocations = JSON.parse(storedLocations);
+          if (Array.isArray(parsedLocations)) {
+            setSavedLocations(parsedLocations);
+          }
+        } catch (e) {
+          console.error('Error parsing saved locations:', e);
+          localStorage.setItem('locations', JSON.stringify([]));
+        }
+      }
+    }, []);
+  
+    // Function to save a location
+    const saveLocation = (locationName) => {
+      if (locationName && !savedLocations.includes(locationName)) {
+        const newSavedLocations = [...savedLocations, locationName];
+        setSavedLocations(newSavedLocations);
+        localStorage.setItem('locations', JSON.stringify(newSavedLocations));
+      }
+    };
+  
+    // Function to remove a location
+    const removeLocation = (locationName) => {
+      const newSavedLocations = savedLocations.filter(loc => loc !== locationName);
+      setSavedLocations(newSavedLocations);
+      localStorage.setItem('locations', JSON.stringify(newSavedLocations));
+    };
+  
+    // Function to view a saved location
+    const viewSavedLocation = (locationName) => {
+      setLocationName(locationName);
+      fetchWeatherData(position[0], position[1], locationName);
+    };
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   const fetchWeatherData = async (lat, lon, locationName) => {
     setIsLoading(true);
@@ -168,6 +207,11 @@ function Weather() {
   
   return (
     <div className="weather-container">
+      <Settings onSavedLocationsChange={() => {
+        const storedLocations = localStorage.getItem('locations');
+        const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
+        setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
+      }} />
       <MapSearch 
       onLocationChange={handleLocationChange} 
       initialPosition={position}
@@ -177,11 +221,19 @@ function Weather() {
         <>
           <WeatherDisplay 
             data={weatherData}
+            savedLocations={savedLocations}
+            onSaveLocation={saveLocation}
           />
           <HourlyForecast hourlyData={weatherData.forecast.hourly} />
           <DailyForecast forecastData={weatherData.forecast.hourly} />
         </>
+        
       )}
+      <DisplaySavedLocations 
+        savedLocations={savedLocations}
+        onRemoveLocation={removeLocation}
+        onViewLocation={viewSavedLocation}
+      />
     </div>
   );
 }
