@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Line} from "react-chartjs-2";
 
 const HourlyForecast = ({hourlyData, units}) => {
@@ -66,8 +66,16 @@ const HourlyForecast = ({hourlyData, units}) => {
 
     const [chartData, setChartData] = useState(chartDatasets.temperature);
 
-    const handleChangeDataset = (key) => {
-        setChartData(chartDatasets[key]);
+    const [selectedType, setSelectedType] = useState("temperature");
+
+    // Updates graph when data changes, retaining the type of data selected.
+    useEffect(() => {
+        setChartData(chartDatasets[selectedType]);
+    }, [hourlyData, units]);
+
+    const handleChangeDataset = (type) => {
+        setSelectedType(type);
+        setChartData(chartDatasets[type]);
     };
 
     return (
