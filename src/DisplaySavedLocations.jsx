@@ -80,7 +80,7 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
                                         )}
                                         disabled={!location.lat && !temperatures[location.name]?.lat}
                                     >
-                                        👁️
+                                        🔎
                                     </button>
                                     <button onClick={() => onRemoveLocation(location)}>
                                         ❌

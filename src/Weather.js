@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import WeatherDisplay from './WeatherDisplay';
-import './App.css';
+// import './App.css';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForcasts';
 import MapSearch from './MapSearch';
@@ -18,6 +18,10 @@ function Weather() {
   // Get units from localStorage
   const [units, setUnits] = useState(() => {
     return localStorage.getItem('units') || 'metric';
+  });
+  // Get theme from localStorage
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
   });
 
   const API_KEY = process.env.REACT_APP_API_KEY;
@@ -38,6 +42,14 @@ function Weather() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+  }, [theme]);
 
   // Function to save a location
   const saveLocation = (locationName) => {
@@ -68,9 +80,13 @@ function Weather() {
       setLocationName(locationName);
       fetchWeatherData(lat, lon, locationName);
     }
-        //idk what to do here
   };
   
+  // Handle theme change from settings
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+  };
+
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   const fetchWeatherData = async (lat, lon, locationName) => {
     setIsLoading(true);
@@ -234,14 +250,6 @@ function Weather() {
   
   return (
     <div className="weather-container">
-      <Settings 
-        onSavedLocationsChange={() => {
-          const storedLocations = localStorage.getItem('locations');
-          const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
-          setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
-        }}
-        onUnitsChange={handleUnitsChange}
-      />
       <MapSearch 
         onLocationChange={handleLocationChange} 
         initialPosition={position}
@@ -270,6 +278,15 @@ function Weather() {
         onRemoveLocation={removeLocation}
         onViewLocation={viewSavedLocation}
         units={units}  // Pass units to DisplaySavedLocations
+      />
+      <Settings 
+        onSavedLocationsChange={() => {
+          const storedLocations = localStorage.getItem('locations');
+          const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
+          setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
+        }}
+        onUnitsChange={handleUnitsChange}
+        onThemeChange={handleThemeChange}
       />
     </div>
   );

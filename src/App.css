@@ -48,7 +48,7 @@ h1 {
     "savedlocations"
     "hourlyforecast";
   gap: 1.5rem;
-  max-width: 1200px;
+  max-width: 95%;
   margin: 0 auto;
   padding: 0;
   border-radius: 20px;

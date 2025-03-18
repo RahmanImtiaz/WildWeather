@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-
-const Settings = ({ onSavedLocationsChange, onUnitsChange }) => {
+import "./settings.css";
+const Settings = ({ onSavedLocationsChange, onUnitsChange, onThemeChange }) => {
     const [units, setUnits] = useState(() => {
         const savedUnits = localStorage.getItem('units');
         return savedUnits || 'metric';
@@ -9,6 +9,11 @@ const Settings = ({ onSavedLocationsChange, onUnitsChange }) => {
     const [tempUnits, setTempUnits] = useState(units);
     const [eraseChoice, setEraseChoice] = useState('no');
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        const savedTheme = localStorage.getItem('theme');
+        return savedTheme || 'dark';
+    });
+    const [tempTheme, setTempTheme] = useState(theme);
 
     useEffect(() => {
         const locations = JSON.parse(localStorage.getItem('locations')) || [];
@@ -18,6 +23,7 @@ const Settings = ({ onSavedLocationsChange, onUnitsChange }) => {
         e.preventDefault();
         setIsSettingsVisible(false);
         const newUnits = tempUnits;
+        const newTheme = tempTheme;
 
         if (eraseChoice === 'yes') {
             localStorage.setItem('locations', JSON.stringify([]));
@@ -32,20 +38,27 @@ const Settings = ({ onSavedLocationsChange, onUnitsChange }) => {
             if (onUnitsChange) onUnitsChange(newUnits);
         }
         
+        // Only update if theme has changed
+        if (theme !== newTheme) {
+            localStorage.setItem('theme', newTheme);
+            setTheme(newTheme);
+            if (onThemeChange) onThemeChange(newTheme);
+        }
+        
         setEraseChoice('no');
     };
 
     return (
-        <div style={{ marginBottom: '40px' }}>
+        <div>
             {!isSettingsVisible && (
                 <button onClick={() => setIsSettingsVisible(true)} id="settingsButton">
-                    Settings
+                    ⚙️
                 </button>
             )}
             {isSettingsVisible && (
                 <div id="settings">
                     <form onSubmit={handleSettingsSubmit}>
-                        <label htmlFor="weatherUnits">
+                        <label>
                             Weather Units:
                         </label>
                         <select
@@ -55,6 +68,18 @@ const Settings = ({ onSavedLocationsChange, onUnitsChange }) => {
                         >
                             <option value="metric">Metric</option>
                             <option value="imperial">Imperial</option>
+                        </select>
+
+                        <label>
+                            Theme:
+                        </label>
+                        <select
+                            id="themeChoice"
+                            value={tempTheme}
+                            onChange={(e) => setTempTheme(e.target.value)}
+                        >
+                            <option value="dark">Dark</option>
+                            <option value="light">Light</option>
                         </select>
 
                         <label>
