@@ -8,7 +8,6 @@ import { Line } from "react-chartjs-2";
 function App() {
   return (
     <div className="App">
-      <h1>Wild Weather</h1>
       <Weather />
     </div>
   );

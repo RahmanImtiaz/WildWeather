@@ -250,6 +250,18 @@ function Weather() {
   
   return (
     <div className="weather-container">
+      <header>
+        <h1>Wild Weather</h1>
+        <Settings 
+        onSavedLocationsChange={() => {
+          const storedLocations = localStorage.getItem('locations');
+          const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
+          setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
+        }}
+        onUnitsChange={handleUnitsChange}
+        onThemeChange={handleThemeChange}
+      />
+      </header>
       <MapSearch 
         onLocationChange={handleLocationChange} 
         initialPosition={position}
@@ -278,15 +290,6 @@ function Weather() {
         onRemoveLocation={removeLocation}
         onViewLocation={viewSavedLocation}
         units={units}  // Pass units to DisplaySavedLocations
-      />
-      <Settings 
-        onSavedLocationsChange={() => {
-          const storedLocations = localStorage.getItem('locations');
-          const parsedLocations = storedLocations ? JSON.parse(storedLocations) : [];
-          setSavedLocations(Array.isArray(parsedLocations) ? parsedLocations : []);
-        }}
-        onUnitsChange={handleUnitsChange}
-        onThemeChange={handleThemeChange}
       />
     </div>
   );

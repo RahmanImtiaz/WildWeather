@@ -57,9 +57,9 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
       
       <button 
         onClick={saveLocation} 
-        disabled={savedLocations.includes(currentData.name)}
+        disabled={savedLocations.some(location => location.name === currentData.name)}
       >
-        {savedLocations.includes(currentData.name) ? 'Saved' : 'Save Location'}
+        {savedLocations.some(location => location.name === currentData.name) ? 'Saved' : 'Save Location'}
       </button>
     </div>
   );
