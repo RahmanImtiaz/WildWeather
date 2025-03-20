@@ -61,39 +61,41 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
     const tempUnit = units === 'metric' ? '°C' : '°F';
 
     return (
-        <div className="saved-locations">
-            <h2>Saved Locations</h2>
-            {savedLocations.length === 0 ? (
-                <p>No saved locations yet.</p>
-            ) : (
-                <ul>
-                    {savedLocations.map((location, index) => (
-                        <li key={index}>
-                            <div className="location-info">
-                                <span className="location-name">{location.name}</span>
-                                <div className="location-actions">
-                                    <button 
-                                        onClick={() => onViewLocation(
-                                            location.name, 
-                                            location.lat || temperatures[location.name]?.lat, 
-                                            location.lon || temperatures[location.name]?.lon
-                                        )}
-                                        disabled={!location.lat && !temperatures[location.name]?.lat}
-                                    >
-                                        🔎
-                                    </button>
-                                    <button onClick={() => onRemoveLocation(location)}>
-                                        ❌
-                                    </button>
+        <div id="saved-locations-container">
+            <h2 id="saved-locations-title">Saved Locations</h2>
+            <div id="saved-locations-list">
+                {savedLocations.length === 0 ? (
+                    <p>No saved locations yet.</p>
+                ) : (
+                    <ul>
+                        {savedLocations.map((location, index) => (
+                            <li key={index}>
+                                <div>
+                                    <p>{location.name}</p>
+                                    <div id="buttons">
+                                        <button 
+                                            onClick={() => onViewLocation(
+                                                location.name, 
+                                                location.lat || temperatures[location.name]?.lat, 
+                                                location.lon || temperatures[location.name]?.lon
+                                            )}
+                                            disabled={!location.lat && !temperatures[location.name]?.lat}
+                                        >
+                                            🔎
+                                        </button>
+                                        <button onClick={() => onRemoveLocation(location)}>
+                                            ❌
+                                        </button>
+                                    </div>
+                                    <p>
+                                        {temperatures[location.name]?.temp}{tempUnit}
+                                    </p>
                                 </div>
-                                <p className="location-temp">
-                                    Temperature: {temperatures[location.name]?.temp || 'Loading...'}{tempUnit}
-                                </p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            )}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };

@@ -61,8 +61,8 @@ h1 {
   .weather-container {
     grid-template-columns: 2fr 1fr;
     grid-template-areas: 
-      "mapsearch mapsearch"
-      "weathercard dailyforecast"
+      "weathercard mapsearch"
+      "hourlyforecast dailyforecast"
       "hourlyforecast savedlocations";
   }
 }
@@ -777,17 +777,64 @@ button {
   padding: 15px;
 }
 
-.saved-locations {
+
+
+/* saved locations */
+#saved-locations-container {
   grid-area: savedlocations;
   background: var(--secondary);
-  border-radius: var(--border-radius-lg);
-  padding: 1.5rem;
-  margin-top: 1.5rem;
+  border-radius: 2em;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
   height: fit-content;
+  overflow-x: auto;
 }
 
-.saved-locations ul {
+#saved-locations-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid white;
+  padding-bottom: 0.5rem;
+}
+
+#saved-locations-list {
+  overflow-x: auto;
+}
+
+#saved-locations-list ul {
+  display: flex;
+  flex-direction: row;
   list-style-type: none;
+  gap: 1em;
   padding: 0;
+}
+
+#saved-locations-list li {
+  font-weight: bold;
+  background-color: #302c64;
+  min-width: 15em;
+  padding: 1em;
+  border: white 1px solid;
+  border-radius: 1em;
+}
+#saved-locations-list li div {
+  display: grid;
+  grid-template-rows: 3fr 0.1fr 0.1fr;
+}
+#saved-locations-list li div div{
+  display: flex;
+  justify-content:space-around;
+
+}
+
+#saved-locations-list button {
+  padding: 1em;
   margin: 0;
+  border: white 1px solid;
+  max-width: fit-content;
+}
+#saved-locations-list button:hover {
+  background-color: #1b153e;
 }
