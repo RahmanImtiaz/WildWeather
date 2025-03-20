@@ -577,6 +577,7 @@ h1 {
   height: 300px;
   border-radius: var(--border-radius-md);
   overflow: hidden;
+  position: relative;
 }
 
 .map-location-icon {
