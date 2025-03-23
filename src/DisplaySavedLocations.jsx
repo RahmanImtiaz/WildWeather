@@ -118,7 +118,7 @@ const DisplaySavedLocations = ({ savedLocations, onRemoveLocation, onViewLocatio
                             <li key={index}>
                                 <div>
                                     {/* Location name */}
-                                    <p>{location.name}</p>
+                                    <p>{location.name.split(',').slice(0, 2).join(', ')}</p>
                                     <div id="buttons">
                                         {/* View button */}
                                         <button 

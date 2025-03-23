@@ -814,8 +814,10 @@ button {
 
 #saved-locations-list li {
   font-weight: bold;
+  font-size: 1.25em;
   background-color: #302c64;
-  min-width: 15em;
+  width: 40%;
+  min-width: 12em;
   padding: 1em;
   border: white 1px solid;
   border-radius: 1em;
