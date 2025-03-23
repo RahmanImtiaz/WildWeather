@@ -1,3 +1,15 @@
+/**
+ * DailyForcasts.jsx
+ * 
+ * This component renders a 5-day weather forecast with expandable details.
+ * It processes hourly forecast data into daily groupings and displays them
+ * in an interactive format, allowing users to click on any day to view
+ * detailed hourly breakdown.
+ * 
+ * The component follows responsive design principles and implements
+ * Gestalt's principle of proximity (Lecture week 8) by grouping related weather information.
+ */
+
 import { useState } from 'react';
 
 const DailyForecast = ({ forecastData, units }) => {
