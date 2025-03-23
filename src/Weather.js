@@ -126,10 +126,10 @@ function Weather() {
   };
 
   /**
-   * 
-   * @param {string} locationName - The name of the saved location that we want to view.
+   * This function views a saved location.
    * This then updates the map position and fetches the weather data for the new selected location.
    * 
+   * @param {string} locationName - The name of the saved location that we want to view.
    * @param {number} lat - The locations latitude.
    * @param {number} lon - The locations longitude.
    */
@@ -142,7 +142,7 @@ function Weather() {
   };
   
   /**
-   * This updates the theme based on users setting choices.
+   * This updates the theme, based on users setting choices.
    * 
    * @param {string} newTheme - The selected theme from settings. Its either light or dark mode.
    */
@@ -150,7 +150,6 @@ function Weather() {
     setTheme(newTheme);
   };
 
-  // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
   /**
    * This function fetches weather data from the OpenWeatherMap API.
    * It takes in the longitude and latitude, which can be from the map or search (also geolocation give lat and long).
