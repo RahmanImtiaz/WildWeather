@@ -130,7 +130,7 @@ const HourlyForecast = ({hourlyData, units}) => {
 
             {/*Displays the line chart with buttons underneath to select different data types.*/}
             <div className="hourly-chart">
-                <Line data={chartData}/>
+                <Line data={chartData} options={{ maintainAspectRatio: false }}/>
             </div>
             <button onClick={() => handleChangeDataset("temperature")} className={"save-button"}>Temperature</button>
             <button onClick={() => handleChangeDataset("wind_speed")} className={"save-button"}>Wind Speed</button>
