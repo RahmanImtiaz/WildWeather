@@ -1,33 +1,70 @@
+/**
+ * Weather.js
+ * This is the main component for the Wild Weather application that handles weather data fetching,
+ * state management, and rendering all sub-components.
+ * 
+ * This is responsible for:
+ * - Fetching and managing weather data from the OpenWeatherMap API,
+ * - Handling geolocation and location searches etc.
+ * - Managing theme and unit preferences. 
+ * - Controlling the application's layout and display.
+ */
+
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import WeatherDisplay from './WeatherDisplay';
-// import './App.css';
 import HourlyForecast from './HourlyForecast';
 import DailyForecast from './DailyForcasts';
 import MapSearch from './MapSearch';
 import Settings from './Settings';
 import DisplaySavedLocations from './DisplaySavedLocations';
 
+
+/**
+ * Weather Component
+ * 
+ * @returns {JSX.Element} The main Weather component that fetches and displays weather data.
+ */
 function Weather() {
+  /**
+   * State Variables
+   */
+  
+  // Stores current weather and forecast data retrieved from API
   const [weatherData, setWeatherData] = useState(null);
-  const [position, setPosition] = useState([51.5074, -0.1278]); // Default London
+
+  // Stores the current position of the map [latitude, longitude] with London as a default for fallback
+  const [position, setPosition] = useState([51.5074, -0.1278]);
+
+  // Stores the name of the location to be displayed
   const [locationName, setLocationName] = useState('London');
+
   // for error handling of API calls
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  // Get units from localStorage
+
+  // The users selected unit [metric, imperial] in settings, found in localStorage
   const [units, setUnits] = useState(() => {
     return localStorage.getItem('units') || 'metric';
   });
-  // Get theme from localStorage
+  // The users selected theme [light, dark] in settings, found in localStorage
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
 
+  // The API key for OpenWeatherMap, stored in .env file (for security)
+  // Note: Make sure to add your API key in a .env file in the root of your project
   const API_KEY = process.env.REACT_APP_API_KEY;
+
+  // The users saved locations, stored in localStorage
   const [savedLocations, setSavedLocations] = useState([]);
   
-  // Load saved locations from localStorage when component mounts
+  /**
+   * useEffect Hook
+   * This hook runs when the component mounts.
+   * It loads saved locations from localStorage on initial render.
+   */
   useEffect(() => {
     const storedLocations = localStorage.getItem('locations');
     if (storedLocations) {
@@ -43,6 +80,11 @@ function Weather() {
     }
   }, []);
 
+  /**
+   * useEffect Hook
+   * This hook runs when the theme changes.
+   * It applies the selected theme (css) to the document body based on selected theme.
+   */
   useEffect(() => {
     if (theme === 'light') {
       document.body.classList.add('light-theme');
@@ -51,7 +93,12 @@ function Weather() {
     }
   }, [theme]);
 
-  // Function to save a location
+  /**
+   * This saves the current location to the saved locations section.
+   * It also checks if the location name already exists in the saved locations section.
+   * 
+   * @param {string} locationName - The name of the location to save.
+   */
   const saveLocation = (locationName) => {
     // Get current coordinates
     const lat = position[0];
@@ -66,14 +113,26 @@ function Weather() {
     }
   };
 
-  // Function to remove a location
+  /**
+   * This removes a location from the saved locations section.
+   * This updates the saved locations in the state and localStorage.
+   * 
+   * @param {Object} locationToRemove - The location object to remove from saved locations.
+   */
   const removeLocation = (locationToRemove) => {
     const newSavedLocations = savedLocations.filter(loc => loc.name !== locationToRemove.name);
     setSavedLocations(newSavedLocations);
     localStorage.setItem('locations', JSON.stringify(newSavedLocations));
   };
 
-  // Function to view a saved location
+  /**
+   * 
+   * @param {string} locationName - The name of the saved location that we want to view.
+   * This then updates the map position and fetches the weather data for the new selected location.
+   * 
+   * @param {number} lat - The locations latitude.
+   * @param {number} lon - The locations longitude.
+   */
   const viewSavedLocation = (locationName, lat, lon) => {
     if (lat && lon) {
       setPosition([lat, lon]); // Update map position
@@ -82,12 +141,24 @@ function Weather() {
     }
   };
   
-  // Handle theme change from settings
+  /**
+   * This updates the theme based on users setting choices.
+   * 
+   * @param {string} newTheme - The selected theme from settings. Its either light or dark mode.
+   */
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
   };
 
   // Fetch weather data from OpenWeather API using latitude and longitede <- get this from map
+  /**
+   * This function fetches weather data from the OpenWeatherMap API.
+   * It takes in the longitude and latitude, which can be from the map or search (also geolocation give lat and long).
+   * 
+   * @param {number} lat 
+   * @param {number} lon 
+   * @param {string} locationName 
+   */
   const fetchWeatherData = async (lat, lon, locationName) => {
     setIsLoading(true);
     setError(null);
@@ -105,32 +176,33 @@ function Weather() {
       );
       console.log("Forecast response:", forecastResponse.data);
   
-      // Transform the data to match the expected structure
+      // Transform the data to match the expected structure (application friendly), also extracting the (3hr) hourly data
       const hourlyData = forecastResponse.data.list.map(item => ({
-        dt: item.dt,
-        temp: item.main.temp,
-        weather: item.weather,
-        wind_speed: item.wind.speed,
-        visibility: item.visibility,
-        humidity: item.main.humidity,
-        pressure: item.main.pressure,
-        clouds: item.clouds.all,
-        // Other data can be added here <---- ASK group memebers
+        dt: item.dt, // Unix timestamp
+        temp: item.main.temp, // Temperature
+        weather: item.weather,// Weather conditions
+        wind_speed: item.wind.speed, // Wind speed
+        visibility: item.visibility, // Visibility
+        humidity: item.main.humidity, // Humidity
+        pressure: item.main.pressure, // Atmospheric/Air pressure
+        clouds: item.clouds.all, // Cloudiness - ie. cloud cover
       }));
 
+      // Get a suggestion based on the current weather description
       const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
 
-      // Get country code from API response
+      // Get country code from API response for the display
       const countryCode = currentResponse.data.sys.country;
 
-      // Ensure the correct format for the location name
+      // Ensure the correct format for the location name with country code
       const formattedLocationName = `${locationName || currentResponse.data.name}, ${countryCode}`;
 
-      // Save the current location name if provided
+      // Save/update the current location name if provided
       if (locationName) {
         setLocationName(locationName);
       }
 
+      // Set the final weather data object that will be used in the web app
       setWeatherData({
         current: {
           ...currentResponse.data,
@@ -139,12 +211,11 @@ function Weather() {
         forecast: {
           hourly: hourlyData,
           current: {
-            // Approximate UV index since it's not in the standard API apparently
-            uvi: 0
+            uvi: 0 // Approximate UV index since it's not in the standard API from the student plans
           }
         },
         suggestion: suggestionMsg,
-        units: units // Add units to the weather data
+        units: units 
       });
     } catch (error) {
       console.error('Error fetching weather data:', error);
@@ -154,7 +225,13 @@ function Weather() {
     }
   };
 
-  // Logic to get a weather suggestion based on weather conditions
+  /**
+   * This function provides a suggestion based on the weather description.
+   * It checks the description and returns a relevant suggestion.
+   * 
+   * @param {string} description - The weather description from the OpenWeather API.
+   * @returns {string} - A suggestion based on the weather description.
+   */
   const getWeatherSuggestion = (description) => {
     if (description.includes("rain")) {
       return "Grab an umbrella!";
@@ -174,14 +251,25 @@ function Weather() {
     return "Enjoy your day!"; // Default suggestion
   }
 
-  // Logic to update weather data based on location search from the map
+  /**
+   * This function handles the location change event from the map search/selection
+   * 
+   * @param {number} lat - Latitude of location
+   * @param {number} lon - Longitude of location
+   * @param {string} locationName - selected Location name
+   */
   const handleLocationChange = (lat, lon, locationName) => {
     setPosition([lat, lon]); // Update position state on map
     setLocationName(locationName || 'Unknown location');
     fetchWeatherData(lat, lon, locationName);
   };
 
-  // Handle units change from settings
+  /**
+   * This function handles the units change event from the settings.
+   * It updates the units state and refetches the weather data if we have position data.
+   * 
+   * @param {string} newUnits - Selected units from settings - metric or imperial
+   */
   const handleUnitsChange = (newUnits) => {
     setUnits(newUnits);
     
@@ -190,25 +278,37 @@ function Weather() {
       fetchWeatherData(position[0], position[1], locationName);
     }
   };
-
+  
+  /**
+   * Effect Hook (runs when the component mounts)
+   * 
+   * This fetches the user's location using the Geolocation API.
+   * If the Geolocation API fails, it falls back to IP-based geolocation.
+   * It also fetches the weather data for the user's location (by passing in lat and long gotten).
+   * 
+   * 
+   */
   useEffect(() => {
     const fetchUserLocation = async () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
+          // Success callback - if geolocation is successful (user presses "Accept")
           async (position) => {
             const { latitude, longitude } = position.coords;
             console.log("User's Current Location:", latitude, longitude); // Debugging
   
             try {
-              // Fetch detailed location using OpenStreetMap's Nominatim API
+              // Fetch detailed location using OpenStreetMap's Nominatim API (thats the one we are using)
               const response = await axios.get(
                 `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
               );
   
+              // Check if the response contains a valid location, then extract the display name
+              // and split it to get the first two parts (road name and city)
               let detailedLocation = "Unknown Location";
               if (response.data && response.data.display_name) {
                 const locationParts = response.data.display_name.split(",");
-                detailedLocation = locationParts.slice(0, 2).join(", ").trim(); // Get first 2 parts
+                detailedLocation = locationParts.slice(0, 2).join(", ").trim(); // Get first 2 parts (road name and city)
               }
   
               console.log("Fetched Location:", detailedLocation); // Debugging
@@ -222,6 +322,7 @@ function Weather() {
               setLocationName("Unknown Location");
             }
           },
+          // Error callback - if geolocation fails (user presses "Deny" or an error occurs)
           async (error) => {
             console.error("Geolocation error:", error);
             console.log("Falling back to IP-based location...");
@@ -235,7 +336,7 @@ function Weather() {
               fetchWeatherData(ipResponse.data.latitude, ipResponse.data.longitude, ipLocation);
             } catch (err) {
               console.error("IP Geolocation Error:", err);
-              fetchWeatherData(51.5074, -0.1278, "London"); // Final fallback to default
+              fetchWeatherData(51.5074, -0.1278, "London"); // Final fallback to default (whch is London)
             }
           }
         );
@@ -246,10 +347,18 @@ function Weather() {
     };
   
     fetchUserLocation();
-  }, []);
+  }, []); // this is an empty dependency array to run only on mount
   
+  /**
+   * This is to Render the Weather component
+   * It returns the main layout of the application.
+   * It includes the header, map search, weather display, hourly and daily forecasts, and saved location displau
+   * 
+   * @returns {JSX.Element} - The rendered Weather component
+   */
   return (
     <div className="weather-container">
+      {/* The web-apps header with title and settings button */}
       <header>
         <h1>Wild Weather</h1>
         <Settings 
@@ -262,29 +371,35 @@ function Weather() {
         onThemeChange={handleThemeChange}
       />
       </header>
+      {/* The Map with search functionality etc. */}
       <MapSearch 
         onLocationChange={handleLocationChange} 
         initialPosition={position}
         initialLocationName={locationName}
       />
+      {/* render the weather components when data is available */}
       {weatherData && (
         <>
+         {/* The main weather display with the current weather conditions */}
           <WeatherDisplay 
             data={weatherData}
             savedLocations={savedLocations}
             onSaveLocation={saveLocation}
             units={units}
           />
+          {/* THE Hourly forecast for the current location, also has interactive charts */}
           <HourlyForecast 
             hourlyData={weatherData.forecast.hourly} 
             units={units}
           />
+          {/* The 5-day forecast with expandable details (like the (3) hourly data) */}
           <DailyForecast 
             forecastData={weatherData.forecast.hourly} 
             units={units}
           />
         </>
       )}
+      {/* The saved locations */}
       <DisplaySavedLocations 
         savedLocations={savedLocations}
         onRemoveLocation={removeLocation}
