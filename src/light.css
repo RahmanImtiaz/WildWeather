@@ -1,92 +1,120 @@
 /* this is all AI */
 :root {
-    /* Dark theme (default) */
-    --primary: #2f2664;
-    --secondary: #1b153e;
-    --muted: #150c47;
-    --text: #ffffff;
-    --text-muted: #d9d9d9;
-    --button-bg: rgba(98, 85, 185, 1);
-    --border-radius-lg: 1.5rem;
-    --border-radius-md: 0.75rem;
-    --border-radius-sm: 0.5rem;
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    --transition: all 0.3s ease;
-  }
-  
-  /* Light theme */
-  .light-theme {
-    --primary: #e6f2ff;
-    --secondary: #c4e0ff;
-    --muted: #7eb3ff;
-    --text: #1a1a1a;
-    --text-muted: #4d4d4d;
-    --button-bg: #3182ce;
-  }
-  
-  /* Apply theme to specific elements */
-  body {
-    background: var(--primary);
-    color: var(--text);
-  }
-  
-  button {
-    background: var(--button-bg);
-    color: var(--text);
-  }
-  
-  .weather-card {
-    background: var(--secondary);
-    color: var(--text);
-  }
-  
-  .daily-forecast {
-    background: var(--secondary);
-  }
-  
-  .daily-item {
-    background: var(--primary);
-  }
-  
-  .daily-item:hover {
-    background: var(--muted);
-  }
-  
-  .map-search-container {
-    background: var(--secondary);
-  }
-  
-  .map-search-button {
-    background-color: var(--button-bg);
-  }
-  
-  .saved-locations {
-    background: var(--secondary);
-  }
-  
-  .hourly-item {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Adjust text colors for light theme */
-  .light-theme .hourly-item span {
-    color: var(--text);
-  }
-  
-  .light-theme .daily-item .day,
-  .light-theme .daily-item .date,
-  .light-theme .daily-item .temp {
-    color: var(--text);
-  }
-  
-  .light-theme .weather-card h2,
-  .light-theme .weather-card h3,
-  .light-theme .weather-card p,
-  .light-theme .weather-card .suggestion {
-    color: var(--text);
-  }
-  
-  /* Adjust icons for light theme */
-  .light-theme .stat-item svg {
-    fill: var(--text);
-  }
+  /* Dark theme (default) */
+  --primary: #2f2664;
+  --secondary: #1b153e;
+  --muted: #150c47;
+  --text: #ffffff;
+  --text-muted: #d9d9d9;
+  --button-bg: rgba(98, 85, 185, 1);
+  --border-radius-lg: 1.5rem;
+  --border-radius-md: 0.75rem;
+  --border-radius-sm: 0.5rem;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --transition: all 0.3s ease;
+  --settings-bg: #333;
+  --settings-input-bg: #555;
+  --settings-border: #666;
+}
+
+/* Light theme */
+.light-theme {
+  --primary: #e6f2ff;
+  --secondary: #c4e0ff;
+  --muted: #7eb3ff;
+  --text: #1a1a1a;
+  --text-muted: #4d4d4d;
+  --button-bg: #3182ce;
+  --settings-bg: #e0eeff;
+  --settings-input-bg: #ffffff;
+  --settings-border: #a0c4ff;
+}
+
+/* Apply theme to specific elements */
+body {
+  background: var(--primary);
+  color: var(--text);
+}
+
+button {
+  background: var(--button-bg);
+  color: var(--text);
+}
+
+.weather-card {
+  background: var(--secondary);
+  color: var(--text);
+}
+
+.daily-forecast {
+  background: var(--secondary);
+}
+
+.daily-item {
+  background: var(--primary);
+}
+
+.daily-item:hover {
+  background: var(--muted);
+}
+
+.map-search-container {
+  background: var(--secondary);
+}
+
+.map-search-button {
+  background-color: var(--button-bg);
+}
+
+.saved-locations {
+  background: var(--secondary);
+}
+
+.hourly-item {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Adjust text colors for light theme */
+.light-theme .hourly-item span {
+  color: var(--text);
+}
+
+.light-theme .daily-item .day,
+.light-theme .daily-item .date,
+.light-theme .daily-item .temp {
+  color: var(--text);
+}
+
+.light-theme .weather-card h2,
+.light-theme .weather-card h3,
+.light-theme .weather-card p,
+.light-theme .weather-card .suggestion {
+  color: var(--text);
+}
+
+/* Adjust icons for light theme */
+.light-theme .stat-item svg {
+  fill: var(--text);
+}
+
+#saved-locations-list li {
+  background: var(--secondary);
+}
+
+/* Settings component styling */
+
+/* Light theme  settings changes */
+.light-theme #settings {
+  background: #e0eeff;
+  color: #333;
+
+}
+.light-theme #settings select {
+  background: white;
+  color: #333;
+}
+
+
+
+
+
