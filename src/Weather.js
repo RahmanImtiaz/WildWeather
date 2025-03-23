@@ -357,6 +357,9 @@ function Weather() {
    */
   return (
     <div className="weather-container">
+      {/* Loading and error messages */}
+      {isLoading && <div className="loading">Loading weather data...</div>}
+      {error && <div className="error-message">{error}</div>}
       {/* The web-apps header with title and settings button */}
       <header>
         <h1>Wild Weather</h1>
