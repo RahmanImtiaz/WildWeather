@@ -132,12 +132,14 @@ const HourlyForecast = ({hourlyData, units}) => {
             <div className="hourly-chart">
                 <Line data={chartData} options={{ maintainAspectRatio: false }}/>
             </div>
-            <button onClick={() => handleChangeDataset("temperature")} className={"save-button"}>Temperature</button>
-            <button onClick={() => handleChangeDataset("wind_speed")} className={"save-button"}>Wind Speed</button>
-            <button onClick={() => handleChangeDataset("visibility")} className={"save-button"}>Visibility</button>
-            <button onClick={() => handleChangeDataset("humidity")} className={"save-button"}>Humidity</button>
-            <button onClick={() => handleChangeDataset("pressure")} className={"save-button"}>Air Pressure</button>
-            <button onClick={() => handleChangeDataset("clouds")} className={"save-button"}>Cloudiness</button>
+            <div className="chart-buttons">
+                <button onClick={() => handleChangeDataset("temperature")}>Temperature</button>
+                <button onClick={() => handleChangeDataset("wind_speed")}>Wind Speed</button>
+                <button onClick={() => handleChangeDataset("visibility")}>Visibility</button>
+                <button onClick={() => handleChangeDataset("humidity")}>Humidity</button>
+                <button onClick={() => handleChangeDataset("pressure")}>Air Pressure</button>
+                <button onClick={() => handleChangeDataset("clouds")}>Cloudiness</button>
+            </div>
         </div>
     );
 };

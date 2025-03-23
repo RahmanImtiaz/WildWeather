@@ -250,29 +250,6 @@ h1 {
   font-size: 1.2rem;
 }
 
-.save-button {
-  background: rgba(255, 255, 255, 0.25);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.save-button:hover {
-  background: rgba(255, 255, 255, 0.4);
-  transform: translateY(-3px);
-}
-
-.save-button:active {
-  transform: translateY(0);
-}
-
 .hourly-forecast {
   grid-area: hourlyforecast;
   overflow-x: auto;
@@ -371,20 +348,12 @@ h1 {
   margin: 5px 0;
 }
 
-.hourly-forecast button {
-  background: rgba(255, 255, 255, 0.25);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 30px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-
-.hourly-forecast button:hover {
-  background: rgba(255, 255, 255, 0.4);
+.chart-buttons {
+  display: flex;
+  direction: row;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .daily-forecast {
