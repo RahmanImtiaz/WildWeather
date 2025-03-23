@@ -1,6 +1,3 @@
-import {useEffect, useState, useMemo} from 'react';
-import {Line} from "react-chartjs-2";
-
 /**
  * HourlyForecast.jsx
  * This is the main component that handles the hourly data fetching and rendering all subcomponents such as the hourly
@@ -11,6 +8,9 @@ import {Line} from "react-chartjs-2";
  * - Matching the units with the users preferred unit of choice.
  * - Displaying a line chart which shows the data of choice by time.
  */
+
+import {useEffect, useState, useMemo} from 'react';
+import {Line} from "react-chartjs-2";
 
 const HourlyForecast = ({hourlyData, units}) => {
     // Format hourly data for display
