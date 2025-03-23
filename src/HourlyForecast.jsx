@@ -1,24 +1,40 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useMemo} from 'react';
 import {Line} from "react-chartjs-2";
+
+/**
+ * HourlyForecast.jsx
+ * This is the main component that handles the hourly data fetching and rendering all subcomponents such as the hourly
+ * chart.
+ *
+ * This is responsible for:
+ * - Formatting hourly data into a JSON array,
+ * - Matching the units with the users preferred unit of choice.
+ * - Displaying a line chart which shows the data of choice by time.
+ */
 
 const HourlyForecast = ({hourlyData, units}) => {
     // Format hourly data for display
-    const next24Hours = hourlyData.slice(0, 24);
+    const next24Hours = useMemo(() => hourlyData.slice(0, 24), [hourlyData]);
 
     // Get the appropriate temperature unit symbol
-    const tempUnit = units === 'metric' ? '°C' : '°F';
-    
+    const tempUnit = useMemo(() => (units === 'metric' ? '°C' : '°F'), [units]);
+
     // Get the appropriate wind speed unit
-    const windSpeedUnit = units === 'metric' ? 'm/s' : 'mph';
+    const windSpeedUnit = useMemo(() => (units === 'metric' ? 'm/s' : 'mph'), [units]);
+
+    // Get the appropriate visibility unit
+    const visibilityUnit = useMemo(() => (units === 'metric' ? 'm' : 'ft'), [units]);
 
     // Array for time values
-    const timeArray = next24Hours.map((hour) => (new Date(hour.dt * 1000).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-    })));
+    const timeArray = useMemo(() => next24Hours.map((hour) =>
+        new Date(hour.dt * 1000).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    ), [next24Hours]);
 
-    // Dataset JSON for each data to be parsed into graph
-    const chartDatasets = {
+    // Dataset JSON for each data to be parsed into chart, useMemo used to only recalculate JSON when necessary
+    const chartDatasets = useMemo(() => ({
         temperature: {
             labels: timeArray,
             datasets: [
@@ -44,7 +60,7 @@ const HourlyForecast = ({hourlyData, units}) => {
         visibility: {
             labels: timeArray,
             datasets: [{
-                label: `Visibility (${units === 'metric' ? 'm' : 'ft'})`,
+                label: `Visibility (${visibilityUnit})`,
                 data: next24Hours.map((data) => data.visibility),
             }]
         },
@@ -62,25 +78,40 @@ const HourlyForecast = ({hourlyData, units}) => {
                 data: next24Hours.map((data) => data.clouds),
             }]
         }
-    };
+    }), [next24Hours, tempUnit, windSpeedUnit, visibilityUnit, timeArray]);
 
+
+    // State variable to update chartData by using the JSON for the required data. Data type to be shown first is
+    // temperature as it is usually high priority.
     const [chartData, setChartData] = useState(chartDatasets.temperature);
 
+    // State variable to store the last clicked data button to display on the chart. Used for when the user changes
+    // location, the chart will still show the data type they clicked previously (but updated to the new location).
     const [selectedType, setSelectedType] = useState("temperature");
 
-    // Updates graph when data changes, retaining the type of data selected.
+    /**
+     * useEffect Hook
+     * This hook updates the chart when the component mounts and when the chartDatasets or selectedType changes.
+     */
     useEffect(() => {
         setChartData(chartDatasets[selectedType]);
-    }, [hourlyData, units]);
+    }, [chartDatasets, selectedType]);
 
+    // .
+    /**
+     * Handles button clicks to change chart data types. Setting the selected datatype which will update the chart.
+     *
+     * @param {string} type - The name of the data type to change to.
+     */
     const handleChangeDataset = (type) => {
         setSelectedType(type);
-        setChartData(chartDatasets[type]);
     };
 
     return (
         <div className="hourly-forecast">
             <h3>Hourly Forecast</h3>
+
+            {/*Displays a scrollable hourly forecast displaying the temperature, icon and time of day.*/}
             <div className="hourly-scrollable">
                 {next24Hours.map((hour, index) => (
                     <div key={index} className="hourly-item">
@@ -96,7 +127,9 @@ const HourlyForecast = ({hourlyData, units}) => {
                     </div>
                 ))}
             </div>
-            <div className="hourly-graph">
+
+            {/*Displays the line chart with buttons underneath to select different data types.*/}
+            <div className="hourly-chart">
                 <Line data={chartData}/>
             </div>
             <button onClick={() => handleChangeDataset("temperature")} className={"save-button"}>Temperature</button>

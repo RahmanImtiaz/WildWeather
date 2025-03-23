@@ -184,7 +184,7 @@ function Weather() {
         visibility: item.visibility, // Visibility
         humidity: item.main.humidity, // Humidity
         pressure: item.main.pressure, // Atmospheric/Air pressure
-        clouds: item.clouds.all, // Cloudiness - ie. cloud cover
+        clouds: item.clouds.all, // Cloudiness - i.e. cloud cover
       }));
 
       // Get a suggestion based on the current weather description

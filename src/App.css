@@ -772,15 +772,13 @@ button {
   width: 10em;
 }
 
-.hourly-graph {
+.hourly-chart {
   height: 55%;
   margin-top: 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-md);
   padding: 15px;
 }
-
-
 
 /* saved locations */
 #saved-locations-container {
@@ -829,7 +827,6 @@ button {
 #saved-locations-list li div div{
   display: flex;
   justify-content:space-around;
-
 }
 
 #saved-locations-list button {
