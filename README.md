@@ -4,15 +4,15 @@ A comprehensive weather application designed for outdoor enthusiasts that provid
 
 
 ## Features
-#### Search: Users can search for any location to view real time weather data.
-#### Interactive Map:Users can pinpoint locations directly on a map to fetch weather information.
-#### Hourly and 5 Day Forecast: Displays a detailed hourly forecast and an extended 5 day forecast.
-#### Location Saving: Allows users to save favorite locations for quick access.
-#### Customizable Settings: Users can switch between metric and imperial units, as well as switch between light and dark themes.
-#### Graphs: Displays weather trends through scattered grahs.
-#### Weather Suggestions: Displays reccomended activities based on current weather conditions.
-#### Geolocation fetching: Automatically detects and fetches the weather for the user’s current location.
-#### Offline Storage: Saves user preferences like theme and units type in local storage. 
+- #### Search: Users can search for any location to view real time weather data.
+- #### Interactive Map:Users can pinpoint locations directly on a map to fetch weather information.
+- #### Hourly and 5 Day Forecast: Displays a detailed hourly forecast and an extended 5 day forecast.
+- #### Location Saving: Allows users to save favorite locations for quick access.
+- #### Customizable Settings: Users can switch between metric and imperial units, as well as switch between light and dark themes.
+- #### Graphs: Displays weather trends through scattered grahs.
+- #### Weather Suggestions: Displays reccomended activities based on current weather conditions.
+- #### Geolocation fetching: Automatically detects and fetches the weather for the user’s current location.
+- #### Offline Storage: Saves user preferences like theme and units type in local storage. 
 
 ## Prerequisites
 
@@ -112,19 +112,19 @@ For a complete list of dependencies, see the `package.json` file.
 
 ## Usage Guide
 
-#### Search for location: Use the search bar to enter the name of a city or location. The app will fetch and display the current weather along with forecasts. 
+- #### Search for location: Use the search bar to enter the name of a city or location. The app will fetch and display the current weather along with forecasts. 
 
-#### Interactive Map: Click on the map to select a location, or use the search function to pinpoint it. The weather details for the selected area will be displayed.Alternatively user can press the button on map to retrieve current location 
+- #### Interactive Map: Click on the map to select a location, or use the search function to pinpoint it. The weather details for the selected area will be displayed.Alternatively user can press the button on map to retrieve current location 
 
-#### Hourly and 5 Day Forecast: View the hourly temperature and current weather detail in a scrollable format. The 5 day forecast provides an overview of upcoming weather trends where user can click on said day and get hourly weather info for set day. 
+- #### Hourly and 5 Day Forecast: View the hourly temperature and current weather detail in a scrollable format. The 5 day forecast provides an overview of upcoming weather trends where user can click on said day and get hourly weather info for set day. 
 
-#### Location Saving: Click the "Save Location" button to store your favorite places. Access saved locations quickly from the saved locations section. Locations saved alredy will alert user that it has been "saved already". 
+- #### Location Saving: Click the "Save Location" button to store your favorite places. Access saved locations quickly from the saved locations section. Locations saved alredy will alert user that it has been "saved already". 
 
-#### Interract with Saved Locations: In the saved locations panel, users will see cards with their saved locations. They can either view or remove any of them. Clicking "View" updates the page by fetching weather for the selected location. 
+- #### Interract with Saved Locations: In the saved locations panel, users will see cards with their saved locations. They can either view or remove any of them. Clicking "View" updates the page by fetching weather for the selected location. 
 
-#### Customise Settings: Open the settings panel to switch between metric and imperial units. You can also toggle between light and dark mode and also remove all saved locations. 
+- #### Customise Settings: Open the settings panel to switch between metric and imperial units. You can also toggle between light and dark mode and also remove all saved locations. 
 
-#### Use Graphs: Check the charts to observe temperature, wind speed, and other weather trends. click respective button to switch between them. 
+- #### Use Graphs: Check the charts to observe temperature, wind speed, and other weather trends. click respective button to switch between them. 
 
 
 
