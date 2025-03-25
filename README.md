@@ -1,77 +1,117 @@
 # WildWeather
-Weather App for Outdoor Enthusiasts
 
-## Setup
-1. Copy `.env.example` to `.env`
-2. Add your OpenWeatherMap API key to `.env`
+A comprehensive weather application designed for outdoor enthusiasts that provides real-time weather data, forecasts, and location-based weather information with an interactive map interface. This have additional features suited for outdoor enthusiasts, like an interactive map, other weather data to help plan activities, the option to save desired location (for future routes or activities) and a more detailed chart to view hourly data.
 
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+LIST THEM OUT - HAVENT DONE
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before you begin, ensure you have:
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- npm (v6 or higher)
+- An OpenWeatherMap API key ([Get one here](https://openweathermap.org/api))
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd weather-app
+   ```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-### `npm test`
+3. Set up environment variables:
+   ```
+   cp .env.example .env
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Edit the `.env` file and add your OpenWeatherMap API key:
+   ```
+   REACT_APP_API_KEY=your_openweathermap_api_key_here
+   ```
 
-### `npm run build`
+5. Start the development server:
+   ```
+   npm start
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+6. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project relies on the following key dependencies:
 
-### `npm run eject`
+- **React v19.0.0**: Core UI framework
+- **axios v1.8.2**: HTTP client for API requests
+- **chart.js v4.4.8**: Charting library for visualizing weather data
+- **react-chartjs-2 v5.3.0**: React components for Chart.js
+- **leaflet v1.9.4**: Interactive mapping library
+- **react-leaflet v5.0.0**: React components for Leaflet maps
+- **react-select v5.10.1**: Enhanced select inputs for location search
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+For a complete list of dependencies, see the `package.json` file.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage Guide
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Current Weather
+The main dashboard displays:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### Finding Weather by Location
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Interactive Charts for other data (such as wind speed etc)
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 5-Day Forecast
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Saving Locations
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Settings & Customization
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## API Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This application uses the following APIs:
+- [OpenWeatherMap API](https://openweathermap.org/api) for weather data
+- [OpenStreetMap/Nominatim API](https://nominatim.org/) for geocoding and reverse geocoding
+- [ipapi.co](https://ipapi.co/) as a fallback for location data
 
-### `npm run build` fails to minify
+## Browser Support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+WildWeather supports all modern browsers, including:
+- Google Chrome (latest 2 versions)
+- Mozilla Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Microsoft Edge (latest 2 versions)
+
+
+## Troubleshooting
+
+### API Key Issues
+- Make sure your OpenWeatherMap API key is correctly set in the `.env` file
+- Ensure you have an active subscription if you're using premium API features
+
+### Geolocation Problems
+- Check that you've allowed location permissions in your browser
+- If geolocation fails, the app will fall back to IP-based location detection
+
+### Map Loading Issues
+- Ensure your internet connection is stable
+- If the map fails to load, try refreshing the page or clearing your browser cache
+
+## Acknowledgements
+
+- Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
+- Map data from [OpenStreetMap](https://www.openstreetmap.org/)
+- Icons and design inspiration from various sources
+
