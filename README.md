@@ -43,6 +43,51 @@ Before you begin, ensure you have:
 
 6. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser
 
+## For Examiners (Submission Instructions)
+
+If you're reviewing this project with only the src folder:
+
+1. Create a new React application:
+   ```
+   npx create-react-app wild-weather
+   ```
+
+2. Delete the src folder in the newly created project:
+   ```
+   cd wild-weather
+   rm -rf src
+   ```
+
+3. Copy the provided src folder into the project directory:
+   ```
+   # Copy the src folder to your project root
+   # (Assuming the src folder is in your current directory)
+   cp -r /path/to/submitted/src ./
+   ```
+
+4. Install the required dependencies:
+   ```
+   npm install axios@1.8.2 chart.js@4.4.8 react-chartjs-2@5.3.0 leaflet@1.9.4 react-leaflet@5.0.0 react-select@5.10.1
+   ```
+
+5. Create a .env file in the project root:
+   ```
+   touch .env
+   ```
+
+6. Add your OpenWeatherMap API key to the .env file:
+   ```
+   REACT_APP_API_KEY=your_openweathermap_api_key_here
+   ```
+   Note: You'll need to obtain an API key from [OpenWeatherMap](https://openweathermap.org/api)
+
+7. Start the application:
+   ```
+   npm start
+   ```
+
+8. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app
+
 ## Dependencies
 
 This project relies on the following key dependencies:
