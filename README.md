@@ -18,7 +18,7 @@ Before you begin, ensure you have:
 1. Clone the repository:
    ```
    git clone <repository-url>
-   cd weather-app
+   cd WildWeather
    ```
 
 2. Install dependencies:
