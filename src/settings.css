@@ -26,18 +26,34 @@
   color: white;
   border: 1px solid #666;
 }
-#settingsButton{
-  max-width: 2.5em;
-  max-height: 2.5em;
-  font-size: 1.5rem;
-  padding:0.5em
-
+#settingsButton {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: rgba(98, 85, 185, 1);
+  color: white;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
 }
 #settings button[type="submit"] {
-  /* padding: 0.75rem 2rem; */
-  max-width: 100%;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  background: #6457e3;
   color: white;
   border: none;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#settings button[type="submit"]:hover {
+  background: var(--muted);
 }

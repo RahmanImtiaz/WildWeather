@@ -819,6 +819,7 @@ header {
   border-radius: 1em;
   background: var(--secondary);
   box-shadow: var(--shadow);
+  position: relative;
 }
 header h1 {
   font-size: 3em;
