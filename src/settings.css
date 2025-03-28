@@ -25,7 +25,6 @@
   color: white;
   border: 1px solid #666;
 }
-<<<<<<< HEAD
 #settingsButton, #settings button[type="submit"] {
   width: 3em;
   max-height: 2.5em;
@@ -40,8 +39,4 @@
 }
 #settings button:hover, #settingsButton:hover {
   background-color: #1b153e;
-}
-
-#settings button[type="submit"]:hover {
-  background: var(--muted);
 }

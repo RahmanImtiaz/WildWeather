@@ -158,20 +158,20 @@ function Weather() {
    * @param {number} lon 
    * @param {string} locationName 
    */
-  const fetchWeatherData = async (lat, lon, locationName) => {
+  const fetchWeatherData = async (lat, lon, locationName,unitsParam=units) => {
     setIsLoading(true);
     setError(null);
     try {
       // Current weather data
       console.log(`Fetching weather data for coordinates: ${lat}, ${lon}`);
       const currentResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=${units}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=${unitsParam}`
       );
       console.log("Current weather response:", currentResponse.data);
       
       // Use the 5-day forecast endpoint to get hourly data
       const forecastResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${unitsParam}`
       );
       console.log("Forecast response:", forecastResponse.data);
   
@@ -274,7 +274,7 @@ function Weather() {
     
     // Refetch weather data with new units if we have position data
     if (position && position.length === 2) {
-      fetchWeatherData(position[0], position[1], locationName);
+      fetchWeatherData(position[0], position[1], locationName, newUnits);
     }
   };
   
