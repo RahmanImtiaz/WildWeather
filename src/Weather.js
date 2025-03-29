@@ -188,7 +188,12 @@ function Weather() {
       }));
 
       // Get a suggestion based on the current weather description
-      const suggestionMsg = getWeatherSuggestion(currentResponse.data.weather[0].description);
+      const suggestionMsg = getWeatherSuggestion(
+        currentResponse.data.weather[0].description,
+        currentResponse.data.main.temp,
+        currentResponse.data.wind.speed,
+        currentResponse.data.main.humidity
+      );
 
       // Get country code from API response for the display
       const countryCode = currentResponse.data.sys.country;
@@ -225,30 +230,62 @@ function Weather() {
   };
 
   /**
-   * This function provides a suggestion based on the weather description.
-   * It checks the description and returns a relevant suggestion.
-   * 
-   * @param {string} description - The weather description from the OpenWeather API.
-   * @returns {string} - A suggestion based on the weather description.
+   * Provides weather-appropriate activity suggestions based on current conditions
+   * @param {string} description - Weather description from API
+   * @param {number} temp - Current temperature
+   * @param {number} windSpeed - Current wind speed
+   * @param {number} humidity - Current humidity percentage
+   * @returns {string} Activity suggestion tailored to weather conditions
    */
-  const getWeatherSuggestion = (description) => {
+  const getWeatherSuggestion = (description, temp, windSpeed, humidity) => {
+    const isHot = temp > 30; // 30°C / 86°F
+    const isWarm = temp > 20; // 20°C / 68°F
+    const isCold = temp < 10; // 10°C / 50°F
+    const isWindy = windSpeed > 20; // 20 km/h or 12 mph
+    const isHumid = humidity > 80; // 80% humidity
+
     if (description.includes("rain")) {
-      return "Grab an umbrella!";
-    }else if (description.includes("snow")) {
-      return "It's snowing! stay warm and enjoy the atmosphere!";
-    }else if (description.includes("storm")) {
-      return "Thunderstorms are rolling in! Stay inside if possible, and avoid tall trees and open fields.";
-    }else if (description === "clear sky") {
-      return "It's nice day for a jog!";
-    } else if (description === "few clouds") {
-      return "Perfect weather for a walk or a trip in the park!"
+      if (description.includes("light")) {
+        return "Light rain - perfect for a quick trail run if you don't mind getting a bit wet!";
+      }
+      return "Rainy conditions - consider indoor climbing or check out waterproof hiking trails. Don't forget rain gear!";
+    } else if (description.includes("snow")) {
+      if (isCold) {
+        return "Snow day! Excellent conditions for skiing, snowboarding, or snowshoeing adventures.";
+      }
+      return "Light snow - great for winter hiking with proper footwear. The trails will be beautiful!";
+    } else if (description.includes("storm")) {
+      return "Stormy weather alert! Indoor activities recommended today. Use the time to plan your next outdoor adventure.";
+    } else if (description === "clear sky") {
+      if (isHot) {
+        return "Clear and hot! Perfect for water activities - swimming, kayaking, or paddleboarding.";
+      } else if (isWarm) {
+        return "Beautiful clear day! Ideal conditions for hiking, cycling, or rock climbing.";
+      } else {
+        return "Clear skies and cooler temperatures make this perfect for a challenging hike or trail run.";
+      }
+    } else if (description === "few clouds" || description.includes("scattered clouds")) {
+      if (isWindy) {
+        return "Partly cloudy and breezy - excellent conditions for paragliding, sailing, or kite flying!";
+      }
+      return "Partly cloudy - ideal weather for mountain biking, hiking, or outdoor photography.";
     } else if (description.includes("cloud")) {
-      return "It's a great time for indoor activities, or a adventurous walk outside!";
-    } else if (description === "mist") {
-      return "Perfect for a quiet walk, but be mindful of lower visibility!";
+      if (isHumid) {
+        return "Cloudy and humid - consider a shorter hike today and bring extra water.";
+      }
+      return "Overcast conditions provide good protection from the sun for longer expeditions.";
+    } else if (description === "mist" || description.includes("fog")) {
+      return "Misty conditions add mystery to forest trails, but stick to familiar paths and bring navigation tools.";
     }
-    return "Enjoy your day!"; // Default suggestion
-  }
+
+    if (isHot) {
+      return "Stay hydrated and seek shaded trails during your outdoor activities today!";
+    } else if (isCold) {
+      return "Layer up and enjoy the crisp weather - perfect for a brisk hike without summer crowds.";
+    }
+
+    return "Great outdoor conditions today! Enjoy your adventure!";
+  };
 
   /**
    * This function handles the location change event from the map search/selection
