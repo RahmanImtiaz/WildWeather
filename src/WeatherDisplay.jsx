@@ -50,12 +50,12 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units, activityI
         </div>
         
         <div className="weather-metrics">
-          <p>Wind Speed: {currentData.wind.speed} {windSpeedUnit}</p>
-          <p>Visibility: {visibilityValue} {visibilityUnit}</p>
-          <p>Humidity: {currentData.main.humidity}%</p>
-          <p>Air Pressure: {currentData.main.pressure} hPa</p>
-          <p>UV Index: {forecastData.current.uvi}</p>
-          <p>Cloudiness: {currentData.clouds.all}%</p>
+          <p>Wind Speed <span className="metric-value">{currentData.wind.speed} {windSpeedUnit}</span></p>
+          <p>Visibility <span className="metric-value">{visibilityValue} {visibilityUnit}</span></p>
+          <p>Humidity <span className="metric-value">{currentData.main.humidity}%</span></p>
+          <p>Air Pressure <span className="metric-value">{currentData.main.pressure} hPa</span></p>
+          <p>UV Index <span className="metric-value">{forecastData.current.uvi}</span></p>
+          <p>Cloudiness <span className="metric-value">{currentData.clouds.all}%</span></p>
         </div>
       </div>
 

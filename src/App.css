@@ -195,7 +195,7 @@ h1 {
 
 .weather-card p {
   margin-bottom: 0.5rem;
-  font-size: 0.875rem;
+  
 }
 
 /* Enhanced suggestion styling */
@@ -249,26 +249,84 @@ h1 {
   opacity: 0.8;
 }
 
+/* Enhanced weather metrics styling */
 .weather-metrics {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 12px;
   margin-top: 25px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  padding: 15px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .weather-metrics p {
-  margin: 5px 0;
+  margin: 8px 0;
   display: flex;
   align-items: center;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.weather-metrics p:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .weather-metrics p::before {
-  margin-right: 8px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.2rem;
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.9;
+}
+
+/* Icons for each metric */
+/* Wind */
+.weather-metrics p:nth-child(1)::before {
+  content: "💨";
+}
+
+/* Visibility */
+.weather-metrics p:nth-child(2)::before {
+  content: "👁️";
+}
+
+/* Humidity */
+.weather-metrics p:nth-child(3)::before {
+  content: "💧"; 
+}
+
+/* Pressure */
+.weather-metrics p:nth-child(4)::before {
+  content: "🌡️"; 
+}
+
+/* UV Index */
+.weather-metrics p:nth-child(5)::before {
+  content: "☀️"; 
+}
+
+/* Cloudiness */
+.weather-metrics p:nth-child(6)::before {
+  content: "☁️";
+}
+
+.metric-value {
+  font-weight: bold;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .hourly-forecast {
