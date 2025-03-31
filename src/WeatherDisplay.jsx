@@ -1,4 +1,4 @@
-const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
+const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units, activityIndices }) => {
   const currentData = data.current;
   const forecastData = data.forecast;
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -8,7 +8,11 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
     day: 'numeric'
   });
   const suggestion = data.suggestion;
-  
+
+  const formatTime = (timestamp) => {
+    return new Date(timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   // Function to save the current location
   const saveLocation = () => {
     if (currentData && currentData.name) {
@@ -18,16 +22,16 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
 
   // Get the appropriate temperature unit symbol
   const tempUnit = units === 'metric' ? '°C' : '°F';
-  
+
   // Get the appropriate wind speed unit
   const windSpeedUnit = units === 'metric' ? 'm/s' : 'mph';
-  
+
   // Convert visibility to appropriate unit (km or miles)
   const visibilityValue = units === 'metric' 
     ? (currentData.visibility / 1000).toFixed(1)
     : (currentData.visibility / 1609).toFixed(1);
   const visibilityUnit = units === 'metric' ? 'km' : 'mi';
-  
+
   return (
     <div className="weather-card">
       <h2>{data.current.name.split(",").slice(0, 2).join(", ")}</h2>
@@ -42,7 +46,7 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
           <p className="temperature">{Math.round(currentData.main.temp)}{tempUnit}</p>
           <p>{currentData.weather[0].description}</p>
           <p>Feels like: {Math.round(currentData.main.feels_like)}{tempUnit}</p>
-          <p>{suggestion}</p>
+          
         </div>
         
         <div className="weather-metrics">
@@ -54,6 +58,19 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
           <p>Cloudiness: {currentData.clouds.all}%</p>
         </div>
       </div>
+
+      <div className="sun-times">
+        <div className="sunrise">
+          <h4>Sunrise</h4>
+          <p>{formatTime(currentData.sys.sunrise)}</p>
+        </div>
+        <div className="sunset">
+          <h4>Sunset</h4>
+          <p>{formatTime(currentData.sys.sunset)}</p>
+        </div>
+      </div>
+
+      <div className="suggestion">{suggestion}</div>
       
       <button 
         onClick={saveLocation} 
@@ -65,5 +82,4 @@ const WeatherDisplay = ({ data, savedLocations, onSaveLocation, units }) => {
   );
 };
 
-export default WeatherDisplay; // Ensure default export
-// currentData.name
+export default WeatherDisplay;

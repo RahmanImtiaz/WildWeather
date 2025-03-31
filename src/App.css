@@ -198,11 +198,32 @@ h1 {
   font-size: 0.875rem;
 }
 
+/* Enhanced suggestion styling */
 .suggestion {
-  margin-top: 1rem;
-  font-size: 0.875rem;
-  font-style: italic;
-  opacity: 0.9;
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background: rgba(98, 85, 185, 0.25);
+  border-left: 4px solid rgba(98, 85, 185, 1);
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.suggestion::before {
+  content: " ⚠️ Today's Outdoor Tip";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.suggestion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .weather-stats {
@@ -824,4 +845,33 @@ header {
 header h1 {
   font-size: 2.5em;
   font-weight: bold;
+}
+
+/* Sunrise/Sunset Times */
+.sun-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.sun-times div {
+  text-align: center;
+}
+
+/* Activity Indices */
+.activity-indices {
+  margin-top: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+}
+
+.activity-indices h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.activity-indices p {
+  margin: 0.25rem 0;
+  font-size: 1rem;
 }
