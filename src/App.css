@@ -648,6 +648,14 @@ h1 {
   z-index: 800;
 }
 
+.leaflet-popup-content {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
 .leaflet-layer {
   width: 100% !important;
   height: 100% !important;
