@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import './mobile.css';
 import './App.css';
 import './light.css'; // Import the theme CSS
 import Weather from './Weather';
