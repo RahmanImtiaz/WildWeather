@@ -207,10 +207,10 @@ const MapSearch = ({ onLocationChange, initialPosition, initialLocationName }) =
       </form>
 
       <div className="map-container">
-        {/* Button to reset view to current location */}
+        {/* Button to reset view to current location - also has SVG icon */}
         <div className="map-location-icon" onClick={resetToCurrentLocation} title="Reset to Current Location">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white">
-            <path d="..."/>
+            <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 2.06V0h-2v2.06A8.994 8.994 0 003.06 11H0v2h3.06A8.994 8.994 0 0011 21.94V24h2v-2.06A8.994 8.994 0 0020.94 13H24v-2h-3.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
           </svg>
         </div>
 
