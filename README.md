@@ -31,16 +31,33 @@ If you're reviewing this project with only the src folder:
    ```
 
 2. Delete the src folder in the newly created project:
+   
+   **macOS/Linux:**
    ```
    cd wild-weather
    rm -rf src
    ```
+   
+   **Windows:**
+   ```
+   cd wild-weather
+   rmdir /s /q src   
+   ```
 
 3. Copy the provided src folder into the project directory:
+   
+   **macOS/Linux:**
    ```
    # Copy the src folder to your project root
    # (Assuming the src folder is in your current directory)
    cp -r /path/to/submitted/src ./
+   ```
+   
+   **Windows:**
+   ```
+   # Copy the src folder to your project root
+   # (Assuming the src folder is in your current directory)
+   xcopy /E /I /Y "\path\to\submitted\src" "src"
    ```
 
 4. Install the required dependencies:
@@ -49,11 +66,20 @@ If you're reviewing this project with only the src folder:
    ```
 
 5. Create a .env file in the project root:
+   
+   **macOS/Linux:**
    ```
    touch .env
    ```
+   
+   **Windows:**
+   ```
+   type nul > .env
+   ```
 
 6. Add your OpenWeatherMap API key to the .env file:
+   
+   Open the .env file in your preferred text editor and add:
    ```
    REACT_APP_API_KEY=your_openweathermap_api_key_here
    ```
@@ -81,8 +107,15 @@ If you're reviewing this project with only the src folder:
    ```
 
 3. Set up environment variables:
+   
+   **macOS/Linux:**
    ```
    cp .env.example .env
+   ```
+   
+   **Windows:**
+   ```
+   copy .env.example .env
    ```
 
 4. Edit the `.env` file and add your OpenWeatherMap API key:
