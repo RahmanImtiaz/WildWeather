@@ -21,37 +21,7 @@ Before you begin, ensure you have:
 - npm (v6 or higher)
 - An OpenWeatherMap API key ([Get one here](https://openweathermap.org/api))
 
-## Installation
-
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd WildWeather
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Set up environment variables:
-   ```
-   cp .env.example .env
-   ```
-
-4. Edit the `.env` file and add your OpenWeatherMap API key:
-   ```
-   REACT_APP_API_KEY=your_openweathermap_api_key_here
-   ```
-
-5. Start the development server:
-   ```
-   npm start
-   ```
-
-6. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser
-
-## For Examiners (Submission Instructions)
+## For Examiners (Submission Instructions - Installation Guide)
 
 If you're reviewing this project with only the src folder:
 
@@ -95,6 +65,37 @@ If you're reviewing this project with only the src folder:
    ```
 
 8. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app
+
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd WildWeather
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Set up environment variables:
+   ```
+   cp .env.example .env
+   ```
+
+4. Edit the `.env` file and add your OpenWeatherMap API key:
+   ```
+   REACT_APP_API_KEY=your_openweathermap_api_key_here
+   ```
+
+5. Start the development server:
+   ```
+   npm start
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser
 
 ## Dependencies
 
