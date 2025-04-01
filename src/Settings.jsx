@@ -12,7 +12,7 @@
 
 import React from "react";
 import { useState} from "react";
-import "./settings.css";
+import "./styles/settings.css"; // Import the CSS for styling the settings component
 
 /**
  * Settings Component
