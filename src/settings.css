@@ -31,12 +31,25 @@
   padding:0.5em;
   border: white 1px solid;
 }
+
+/* Settings button */
 #settingsButton {
+  width: fit-content;
+  height: fit-content;
+  font-size: 1.5rem;
   margin-right: 1rem;
 }
+
+/* Submit button for settings */
+#settings button[type="submit"] {
+  font-size: 1rem;
+}
+
+
 #settings label {
   min-width: fit-content;
 }
+
 #settings button:hover, #settingsButton:hover {
   background-color: #1b153e;
 }
